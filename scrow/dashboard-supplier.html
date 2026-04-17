@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Supplier - S+CROW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+        .bg-scrow-green { background-color: #15803d; }
+        .text-scrow-green { color: #15803d; }
+        .bg-scrow-yellow { background-color: #facc15; }
+        .sidebar-item:hover { background-color: rgba(255, 255, 255, 0.1); }
+        .sidebar-item.active { background-color: #facc15; color: #166534; }
+    </style>
+</head>
+<body class="bg-gray-100 flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-scrow-green text-white hidden md:flex flex-col">
+        <div class="p-6">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-white rounded flex items-center justify-center">
+                    <span class="text-scrow-green font-bold text-sm">S+</span>
+                </div>
+                <span class="text-xl font-bold tracking-tighter">CROW</span>
+            </div>
+            <p class="text-[10px] text-green-200 mt-1 uppercase font-bold tracking-widest">Supplier Panel</p>
+        </div>
+        
+        <nav class="flex-grow mt-4">
+            <a href="#" class="sidebar-item active flex items-center px-6 py-4 transition">
+                <i class="fas fa-th-large mr-3"></i> Ringkasan
+            </a>
+            <a href="#" class="sidebar-item flex items-center px-6 py-4 transition text-green-50">
+                <i class="fas fa-box mr-3"></i> Produk Saya
+            </a>
+            <a href="#" class="sidebar-item flex items-center px-6 py-4 transition text-green-50">
+                <i class="fas fa-shopping-cart mr-3"></i> Pesanan Masuk
+                <span class="ml-auto bg-scrow-yellow text-green-900 text-[10px] px-2 py-1 rounded-full font-bold">5</span>
+            </a>
+            <a href="#" class="sidebar-item flex items-center px-6 py-4 transition text-green-50">
+                <i class="fas fa-wallet mr-3"></i> Keuangan
+            </a>
+            <a href="profile-supplier.html" class="sidebar-item flex items-center px-6 py-4 transition text-green-50">
+                <i class="fas fa-cog mr-3"></i> Pengaturan Toko
+            </a>
+        </nav>
+
+        <div class="p-6 border-t border-white/10">
+            <a href="index.html" class="flex items-center text-green-200 hover:text-white transition">
+                <i class="fas fa-sign-out-alt mr-3"></i> Keluar
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col">
+        <!-- Top Bar -->
+        <header class="bg-white h-20 shadow-sm flex items-center justify-between px-8">
+            <h2 class="text-xl font-bold text-black-800">Halo, PT Sumber Pangan</h2>
+            <div class="flex items-center space-x-4">
+                <button class="text-gray-400 hover:text-scrow-green relative">
+                    <i class="fas fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                </button>
+                <div class="h-8 w-[1px] bg-gray-200"></div>
+                <a href="profile-supplier.html" class="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition">
+                    <div class="text-right">
+                        <p class="text-sm font-bold">Budi Santoso</p>
+                        <p class="text-[10px] text-gray-400 uppercase">Owner</p>
+                    </div>
+                    <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden border-2 border-scrow-green">
+                        <img src="https://ui-avatars.com/api/?name=Budi+Santoso&background=15803d&color=fff" alt="Profile">
+                    </div>
+                </a>
+            </div>
+        </header>
+
+        <!-- Dashboard Widgets -->
+        <div class="p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Card 1 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <p class="text-gray-400 text-sm font-medium">Total Pendapatan</p>
+                    <h3 class="text-2xl font-extrabold mt-2 text-scrow-green">Rp 128.500.000</h3>
+                    <p class="text-xs text-green-600 mt-2 font-bold"><i class="fas fa-arrow-up mr-1"></i> 12.5% bln ini</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <p class="text-gray-400 text-sm font-medium">Pesanan Baru</p>
+                    <h3 class="text-2xl font-extrabold mt-2 text-gray-800">24 Pesanan</h3>
+                    <p class="text-xs text-gray-400 mt-2">Menunggu konfirmasi</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <p class="text-gray-400 text-sm font-medium">Stok Rendah</p>
+                    <h3 class="text-2xl font-extrabold mt-2 text-orange-500">3 Produk</h3>
+                    <p class="text-xs text-orange-600 mt-2 font-bold underline cursor-pointer">Segera Restok</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <p class="text-gray-400 text-sm font-medium">Rating Supplier</p>
+                    <h3 class="text-2xl font-extrabold mt-2 text-scrow-yellow flex items-center">
+                        4.9 <i class="fas fa-star ml-2 text-sm"></i>
+                    </h3>
+                    <p class="text-xs text-gray-400 mt-2">Dari 150+ ulasan</p>
+                </div>
+            </div>
+
+            <!-- Recent Orders Table -->
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-6 border-b border-gray-50 flex justify-between items-center">
+                    <h3 class="text-lg font-bold">Pesanan Terbaru</h3>
+                    <button class="text-scrow-green text-sm font-bold hover:underline">Lihat Semua</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50 text-gray-500 text-xs uppercase">
+                            <tr>
+                                <th class="px-6 py-4">ID Pesanan</th>
+                                <th class="px-6 py-4">Buyer</th>
+                                <th class="px-6 py-4">Produk</th>
+                                <th class="px-6 py-4">Total</th>
+                                <th class="px-6 py-4">Status</th>
+                                <th class="px-6 py-4">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50 text-sm">
+                            <tr>
+                                <td class="px-6 py-4 font-bold">#ORD-9921</td>
+                                <td class="px-6 py-4">Toko Kelontong Sejahtera</td>
+                                <td class="px-6 py-4">Beras Premium 50kg (x10)</td>
+                                <td class="px-6 py-4">Rp 7.500.000</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-[10px] font-bold uppercase">Menunggu</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button class="bg-scrow-green text-white px-3 py-1 rounded-lg text-xs hover:bg-green-700 transition">Proses</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold">#ORD-9920</td>
+                                <td class="px-6 py-4">Catering Berkah</td>
+                                <td class="px-6 py-4">Minyak Goreng 20L (x5)</td>
+                                <td class="px-6 py-4">Rp 1.250.000</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-[10px] font-bold uppercase">Dikirim</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button class="border border-gray-200 px-3 py-1 rounded-lg text-xs hover:bg-gray-50">Detail</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

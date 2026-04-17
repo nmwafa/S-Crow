@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Buyer - S+CROW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+        .bg-scrow-green { background-color: #15803d; }
+        .text-scrow-green { color: #15803d; }
+        .bg-scrow-yellow { background-color: #facc15; }
+        .border-scrow-green { border-color: #15803d; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="dashboard-buyer.html" class="flex items-center space-x-2">
+                        <div class="w-9 h-9 bg-scrow-green rounded-lg flex items-center justify-center">
+                            <span class="text-scrow-yellow font-bold text-lg">S+</span>
+                        </div>
+                        <span class="text-xl font-extrabold tracking-tighter text-scrow-green">CROW</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="products.html" class="text-gray-500 hover:text-scrow-green font-medium transition">Pasar Produk</a>
+                    <a href="dashboard-buyer.html" class="px-4 py-2 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition">Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <!-- Sidebar Navigation -->
+            <aside class="w-full lg:w-1/4">
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 sticky top-28">
+                    <div class="text-center mb-8">
+                        <div class="w-24 h-24 bg-gray-100 rounded-full mx-auto mb-4 border-4 border-scrow-yellow overflow-hidden relative group">
+                            <img src="https://ui-avatars.com/api/?name=Toko+Sejahtera&background=15803d&color=fff" alt="Avatar" class="w-full h-full object-cover">
+                            <button class="absolute inset-0 bg-black/40 text-white opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        </div>
+                        <h2 class="font-bold text-lg">Toko Sejahtera</h2>
+                        <p class="text-sm text-gray-400 italic">Retailer & F&B</p>
+                    </div>
+                    
+                    <nav class="space-y-1">
+                        <a href="#" class="flex items-center px-4 py-3 bg-green-50 text-scrow-green font-bold rounded-xl transition">
+                            <i class="fas fa-user-circle mr-3"></i> Informasi Akun
+                        </a>
+                        <a href="#" class="flex items-center px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-xl transition">
+                            <i class="fas fa-map-marker-alt mr-3"></i> Alamat Pengiriman
+                        </a>
+                        <a href="#" class="flex items-center px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-xl transition">
+                            <i class="fas fa-shield-alt mr-3"></i> Keamanan
+                        </a>
+                        <a href="#" class="flex items-center px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-xl transition">
+                            <i class="fas fa-file-invoice mr-3"></i> Riwayat Tagihan
+                        </a>
+                        <hr class="my-4 border-gray-100">
+                        <a href="index.html" class="flex items-center px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl transition">
+                            <i class="fas fa-sign-out-alt mr-3"></i> Keluar
+                        </a>
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- Profile Content -->
+            <div class="w-full lg:w-3/4 space-y-8">
+                
+                <!-- Account Info Form -->
+                <section class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6 border-b border-gray-50 flex justify-between items-center">
+                        <h3 class="text-xl font-bold">Informasi Akun Buyer</h3>
+                        <span class="px-3 py-1 bg-green-100 text-scrow-green text-[10px] font-bold rounded-full uppercase tracking-wider">Terverifikasi</span>
+                    </div>
+                    <div class="p-8">
+                        <form class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Nama Pemilik</label>
+                                    <input type="text" value="Budi Sejahtera" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green transition">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Nama Bisnis / Toko</label>
+                                    <input type="text" value="Toko Sejahtera" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green transition">
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Email</label>
+                                    <input type="email" value="budi@tokosejahtera.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-500 outline-none" disabled>
+                                    <p class="text-[10px] text-gray-400 mt-1">*Email tidak dapat diubah</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Nomor WhatsApp</label>
+                                    <input type="tel" value="081234567890" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green transition">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Tipe Bisnis</label>
+                                <select class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green bg-white transition">
+                                    <option selected>Retailer / Toko Kelontong</option>
+                                    <option>Restoran / Cafe</option>
+                                    <option>UMKM Pengolahan</option>
+                                    <option>Lainnya</option>
+                                </select>
+                            </div>
+                            <div class="flex justify-end pt-4">
+                                <button type="button" onclick="alert('Profil diperbarui!')" class="px-8 py-3 bg-scrow-green text-white font-bold rounded-xl hover:bg-green-700 transition shadow-lg shadow-green-100">Simpan Perubahan</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Documents Section -->
+                <section class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6 border-b border-gray-50">
+                        <h3 class="text-xl font-bold">Dokumen Verifikasi</h3>
+                        <p class="text-sm text-gray-400 mt-1">Lengkapi dokumen untuk meningkatkan limit transaksi Escrow</p>
+                    </div>
+                    <div class="p-8 grid md:grid-cols-2 gap-6">
+                        <div class="p-4 border-2 border-dashed border-gray-200 rounded-2xl flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-green-50 text-scrow-green rounded-xl flex items-center justify-center text-xl">
+                                <i class="fas fa-id-card"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-sm font-bold">KTP Pemilik</p>
+                                <p class="text-xs text-green-600 font-bold">Disetujui</p>
+                            </div>
+                            <i class="fas fa-check-circle text-scrow-green"></i>
+                        </div>
+                        <div class="p-4 border-2 border-dashed border-gray-200 rounded-2xl flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-yellow-50 text-scrow-yellow rounded-xl flex items-center justify-center text-xl">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-sm font-bold">NPWP / SIUP</p>
+                                <p class="text-xs text-orange-400 font-bold">Menunggu Verifikasi</p>
+                            </div>
+                            <i class="fas fa-clock text-orange-300"></i>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-100 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-400">
+            <p>&copy; 2024 S+CROW Buyer Profile. Secure B2B Ecosystem.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

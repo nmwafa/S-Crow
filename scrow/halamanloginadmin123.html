@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - S+CROW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+        .bg-scrow-green { background-color: #15803d; }
+        .text-scrow-green { color: #15803d; }
+        .bg-scrow-yellow { background-color: #facc15; }
+        .text-scrow-yellow { color: #facc15; }
+        
+        /* Animasi background untuk admin */
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.4;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 flex items-center justify-center min-h-screen relative overflow-hidden text-gray-200">
+
+    <!-- Efek Background Latar -->
+    <div class="blob w-96 h-96 bg-scrow-green rounded-full top-[-10%] left-[-10%]"></div>
+    <div class="blob w-80 h-80 bg-scrow-yellow rounded-full bottom-[-10%] right-[-10%] opacity-20"></div>
+
+    <!-- Container Login -->
+    <main class="w-full max-w-md px-4 relative z-10">
+        
+        <!-- Kembali ke situs utama (Pojok Kiri Atas) -->
+        <a href="index.html" class="absolute -top-16 left-4 text-sm text-gray-400 hover:text-white transition flex items-center">
+            <i class="fas fa-arrow-left mr-2"></i> Kembali ke situs publik
+        </a>
+
+        <!-- Box Login -->
+        <div class="bg-slate-900 p-8 md:p-10 rounded-3xl border border-white/10 shadow-2xl backdrop-blur-sm">
+            
+            <!-- Logo Admin -->
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-scrow-yellow rounded-2xl flex items-center justify-center text-slate-900 text-3xl mx-auto mb-4 shadow-lg shadow-yellow-500/20">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h1 class="text-2xl font-extrabold text-white tracking-tight">S+CROW Admin</h1>
+                <p class="text-xs text-scrow-yellow mt-1 font-bold tracking-widest uppercase">Pusat Kendali Sistem</p>
+            </div>
+
+            <!-- Pesan Peringatan -->
+            <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-3 mb-6 flex items-start space-x-3">
+                <i class="fas fa-exclamation-triangle text-red-400 mt-0.5"></i>
+                <p class="text-[10px] text-red-200 leading-relaxed">
+                    Halaman ini dikhususkan untuk Administrator S+CROW. Segala aktivitas login direkam oleh sistem keamanan.
+                </p>
+            </div>
+
+            <!-- Form Login Admin -->
+            <form onsubmit="event.preventDefault(); window.location.href='dashboard-admin.html'" class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">Admin ID / Email</label>
+                    <div class="relative">
+                        <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                        <input type="text" class="w-full pl-11 pr-4 py-3 bg-slate-950 border border-white/10 rounded-xl text-white outline-none focus:border-scrow-yellow focus:ring-1 focus:ring-scrow-yellow transition" placeholder="admin@scrow.id" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">Kata Sandi</label>
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                        <input type="password" class="w-full pl-11 pr-4 py-3 bg-slate-950 border border-white/10 rounded-xl text-white outline-none focus:border-scrow-yellow focus:ring-1 focus:ring-scrow-yellow transition" placeholder="••••••••" required>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between mt-2">
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" class="rounded bg-slate-950 border-white/10 text-scrow-yellow focus:ring-scrow-yellow">
+                        <span class="text-xs text-gray-400">Ingat sesi ini</span>
+                    </label>
+                    <a href="#" class="text-xs text-scrow-yellow hover:underline">Lupa sandi?</a>
+                </div>
+                
+                <button type="submit" class="w-full py-4 bg-scrow-yellow text-slate-900 font-extrabold rounded-xl hover:bg-yellow-400 transition shadow-lg shadow-yellow-500/20 mt-4 flex justify-center items-center">
+                    Masuk ke Sistem <i class="fas fa-sign-in-alt ml-2"></i>
+                </button>
+            </form>
+
+        </div>
+
+        <div class="text-center mt-8">
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest">&copy; 2026 S+CROW Security Systems</p>
+        </div>
+    </main>
+
+</body>
+</html>

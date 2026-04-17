@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S+CROW - Solusi E-commerce Supplier & Buyer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+        .bg-scrow-green { background-color: #15803d; }
+        .text-scrow-green { color: #15803d; }
+        .bg-scrow-yellow { background-color: #facc15; }
+        .text-scrow-yellow { color: #facc15; }
+        .hero-gradient { background: linear-gradient(135deg, #15803d 0%, #166534 100%); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Navigation Bar -->
+    <nav class="fixed w-full z-50 bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <div class="w-10 h-10 bg-scrow-green rounded-lg flex items-center justify-center">
+                            <span class="text-scrow-yellow font-bold text-xl">S+</span>
+                        </div>
+                        <span class="text-2xl font-extrabold tracking-tighter text-scrow-green">CROW</span>
+                    </a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-scrow-green font-bold transition border-b-2 border-scrow-green">Beranda</a>
+                    <a href="#fitur" class="hover:text-scrow-green font-medium transition">Fitur</a>
+                    <div class="flex items-center space-x-4 ml-4">
+                        <a href="login.html" class="px-5 py-2 text-scrow-green font-semibold hover:bg-green-50 rounded-full transition text-center">Masuk</a>
+                        <a href="register.html" class="px-6 py-2 bg-scrow-yellow text-green-900 font-bold rounded-full hover:shadow-lg transition transform hover:-translate-y-1 text-center">Daftar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-20">
+        <!-- Hero Section -->
+        <section class="hero-gradient text-white py-20 lg:py-32 overflow-hidden relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h1 class="text-4xl lg:text-6xl font-extrabold leading-tight mb-6">
+                            Ekosistem Perdagangan <span class="text-scrow-yellow">Aman</span> & <span class="text-scrow-yellow">Terpercaya</span>.
+                        </h1>
+                        <p class="text-lg text-green-50 mb-10 opacity-90 leading-relaxed">
+                            S+CROW mempermudah transaksi skala besar antara supplier dan buyer dengan sistem escrow terintegrasi yang menjamin keamanan dana Anda.
+                        </p>
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                            <a href="register.html" class="px-8 py-4 bg-scrow-yellow text-green-900 font-bold rounded-xl text-center hover:shadow-2xl transition transform hover:-translate-y-1">Mulai Sekarang</a>
+                            <button class="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold rounded-xl text-center hover:bg-white/20 transition">Tentang Kami</button>
+                        </div>
+                    </div>
+                    <div class="hidden lg:block">
+                        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=800" alt="Supply Chain Logistics" class="rounded-3xl shadow-2xl rotate-2">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="fitur" class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold mb-16">Fitur Unggulan S+CROW</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="p-8 bg-gray-50 rounded-3xl border border-gray-100 hover:border-scrow-green transition">
+                        <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center text-scrow-green text-2xl mx-auto mb-6">
+                            <i class="fas fa-shield-check"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Sistem Escrow</h3>
+                        <p class="text-gray-600">Dana hanya akan dilepaskan ke supplier setelah buyer mengonfirmasi penerimaan barang.</p>
+                    </div>
+                    <div class="p-8 bg-gray-50 rounded-3xl border border-gray-100 hover:border-scrow-green transition">
+                        <div class="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center text-scrow-yellow text-2xl mx-auto mb-6">
+                            <i class="fas fa-users-check"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Verified Partners</h3>
+                        <p class="text-gray-600">Seluruh mitra supplier dan buyer telah melewati proses verifikasi identitas dan bisnis.</p>
+                    </div>
+                    <div class="p-8 bg-gray-50 rounded-3xl border border-gray-100 hover:border-scrow-green transition">
+                        <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center text-scrow-green text-2xl mx-auto mb-6">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Invoice Otomatis</h3>
+                        <p class="text-gray-600">Manajemen dokumen transaksi yang rapi dan otomatis untuk kebutuhan akuntansi bisnis Anda.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p>&copy; 2024 S+CROW Indonesia. Seluruh hak cipta dilindungi.</p>
+        </div>
+    </footer>
+</body>
+</html>

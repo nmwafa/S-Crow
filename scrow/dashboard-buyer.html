@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Buyer - S+CROW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+        .bg-scrow-green { background-color: #15803d; }
+        .text-scrow-green { color: #15803d; }
+        .bg-scrow-yellow { background-color: #facc15; }
+        .sidebar-item:hover { background-color: #f1f5f9; }
+        .sidebar-item.active { border-left: 4px solid #facc15; background-color: #f8fafc; color: #15803d; }
+    </style>
+</head>
+<body class="bg-slate-50 flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-20 lg:w-64 bg-white border-r border-slate-200 flex flex-col">
+        <div class="p-6 flex items-center space-x-3">
+            <div class="w-10 h-10 bg-scrow-green rounded-xl flex items-center justify-center text-scrow-yellow">
+                <i class="fas fa-shopping-basket"></i>
+            </div>
+            <span class="text-xl font-bold tracking-tighter text-scrow-green hidden lg:block">S+CROW</span>
+        </div>
+
+        <nav class="flex-grow mt-6">
+            <a href="#" class="sidebar-item active flex items-center px-6 py-4 transition group">
+                <i class="fas fa-home mr-4 text-xl lg:text-base"></i>
+                <span class="font-bold hidden lg:block">Beranda Dashboard</span>
+            </a>
+            <a href="#" class="sidebar-item flex items-center px-6 py-4 transition text-slate-500 hover:text-scrow-green">
+                <i class="fas fa-search mr-4 text-xl lg:text-base"></i>
+                <span class="font-medium hidden lg:block">Cari Supplier</span>
+            </a>
+            <a href="#" class="sidebar-item flex items-center px-6 py-4 transition text-slate-500 hover:text-scrow-green">
+                <i class="fas fa-box-open mr-4 text-xl lg:text-base"></i>
+                <span class="font-medium hidden lg:block">Pesanan Saya</span>
+            </a>
+            <a href="#" class="sidebar-item flex items-center px-6 py-4 transition text-slate-500 hover:text-scrow-green">
+                <i class="fas fa-shield-alt mr-4 text-xl lg:text-base"></i>
+                <span class="font-medium hidden lg:block">Dana Escrow</span>
+            </a>
+            <a href="profile-buyer.html" class="sidebar-item flex items-center px-6 py-4 transition text-slate-500 hover:text-scrow-green">
+                <i class="fas fa-user-circle mr-4 text-xl lg:text-base"></i>
+                <span class="font-medium hidden lg:block">Profil Akun</span>
+            </a>
+            <a href="#" class="sidebar-item flex items-center px-6 py-4 transition text-slate-500 hover:text-scrow-green">
+                <i class="fas fa-history mr-4 text-xl lg:text-base"></i>
+                <span class="font-medium hidden lg:block">Riwayat Transaksi</span>
+            </a>
+        </nav>
+
+        <div class="p-6 mt-auto">
+            <div class="bg-scrow-green/5 p-4 rounded-2xl hidden lg:block">
+                <p class="text-xs font-bold text-scrow-green uppercase tracking-wider mb-2">Dana Tersedia</p>
+                <p class="text-lg font-extrabold text-slate-800">Rp 25.000.000</p>
+                <button class="w-full mt-3 py-2 bg-scrow-yellow text-green-900 text-xs font-bold rounded-lg hover:shadow-md transition">Top Up Saldo</button>
+            </div>
+            <a href="index.html" class="mt-6 flex items-center px-4 text-slate-400 hover:text-red-500 transition">
+                <i class="fas fa-power-off mr-3"></i> <span class="hidden lg:block">Keluar</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-4 lg:p-8">
+        <!-- Top Search Bar -->
+        <div class="flex flex-col lg:row items-center justify-between mb-10 gap-4">
+            <div>
+                <h1 class="text-2xl font-extrabold text-slate-800">Halo, Toko Sejahtera! 👋</h1>
+                <p class="text-slate-400">Temukan bahan baku terbaik untuk bisnis Anda hari ini.</p>
+            </div>
+            <div class="flex w-full lg:w-auto items-center space-x-4">
+                <div class="relative w-full lg:w-96">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"></i>
+                    <input type="text" placeholder="Cari beras, minyak, gula..." class="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-2xl focus:border-scrow-green focus:ring-4 focus:ring-green-50 outline-none transition">
+                </div>
+                <a href="profile-buyer.html" class="hidden lg:flex w-12 h-12 bg-white border border-slate-200 rounded-xl items-center justify-center text-slate-500 hover:border-scrow-yellow hover:text-scrow-green transition shrink-0 cursor-pointer shadow-sm">
+                    <i class="fas fa-user"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Tracking Section -->
+        <div class="mb-10">
+            <h3 class="text-lg font-bold mb-6 flex items-center">
+                <i class="fas fa-truck text-scrow-green mr-3"></i> Sedang Dikirim
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Track Card -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ID Pesanan #ORD-9920</p>
+                            <h4 class="font-bold text-slate-800">5 Karton Minyak Goreng</h4>
+                        </div>
+                        <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-bold">DALAM PERJALANAN</span>
+                    </div>
+                    <!-- Simple Progress -->
+                    <div class="relative pt-1">
+                        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-slate-100">
+                            <div style="width:75%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-scrow-green"></div>
+                        </div>
+                        <div class="flex justify-between text-[10px] font-bold text-slate-400">
+                            <span>DIKIRIM</span>
+                            <span>TRANSIT</span>
+                            <span class="text-slate-300">TIBA</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Track Card 2 -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-center border-dashed group cursor-pointer hover:border-scrow-green transition">
+                    <div class="text-center">
+                        <div class="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-2 text-slate-300 group-hover:bg-green-50 group-hover:text-scrow-green transition">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <p class="text-sm font-bold text-slate-400 group-hover:text-scrow-green transition">Buat Pesanan Baru</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category/Marketplace Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition group cursor-pointer">
+                <div class="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center text-scrow-green mb-4 group-hover:bg-scrow-green group-hover:text-white transition">
+                    <i class="fas fa-seedling text-xl"></i>
+                </div>
+                <h5 class="font-bold">Bahan Pokok</h5>
+                <p class="text-xs text-slate-400 mt-1">240+ Supplier</p>
+            </div>
+            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition group cursor-pointer">
+                <div class="w-12 h-12 bg-yellow-50 rounded-2xl flex items-center justify-center text-scrow-yellow mb-4 group-hover:bg-scrow-yellow group-hover:text-green-900 transition">
+                    <i class="fas fa-egg text-xl"></i>
+                </div>
+                <h5 class="font-bold">Hasil Ternak</h5>
+                <p class="text-xs text-slate-400 mt-1">115+ Supplier</p>
+            </div>
+            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition group cursor-pointer">
+                <div class="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center text-scrow-green mb-4 group-hover:bg-scrow-green group-hover:text-white transition">
+                    <i class="fas fa-fish text-xl"></i>
+                </div>
+                <h5 class="font-bold">Hasil Laut</h5>
+                <p class="text-xs text-slate-400 mt-1">89+ Supplier</p>
+            </div>
+            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition group cursor-pointer">
+                <div class="w-12 h-12 bg-yellow-50 rounded-2xl flex items-center justify-center text-scrow-yellow mb-4 group-hover:bg-scrow-yellow group-hover:text-green-900 transition">
+                    <i class="fas fa-utensils text-xl"></i>
+                </div>
+                <h5 class="font-bold">Olahan Makanan</h5>
+                <p class="text-xs text-slate-400 mt-1">310+ Supplier</p>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

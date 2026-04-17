@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Supplier - S+CROW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+        .bg-scrow-green { background-color: #15803d; }
+        .text-scrow-green { color: #15803d; }
+        .bg-scrow-yellow { background-color: #facc15; }
+        .text-scrow-yellow { color: #facc15; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Navigation -->
+    <nav class="bg-scrow-green text-white sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="dashboard-supplier.html" class="flex items-center space-x-2">
+                        <div class="w-9 h-9 bg-white rounded-lg flex items-center justify-center">
+                            <span class="text-scrow-green font-bold text-lg">S+</span>
+                        </div>
+                        <span class="text-xl font-extrabold tracking-tighter text-white">CROW</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <span class="text-xs font-bold bg-white/20 px-3 py-1 rounded-full uppercase tracking-widest">Supplier Mode</span>
+                    <a href="dashboard-supplier.html" class="px-4 py-2 bg-scrow-yellow text-green-900 font-bold rounded-xl hover:shadow-lg transition">Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header / Banner -->
+    <div class="h-48 bg-gradient-to-r from-green-800 to-green-600 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative h-full">
+            <div class="absolute -bottom-16 flex items-end space-x-6">
+                <div class="w-32 h-32 bg-white rounded-3xl shadow-xl p-1">
+                    <img src="https://ui-avatars.com/api/?name=PT+Sumber+Pangan&background=facc15&color=15803d&size=128" alt="Logo Perusahaan" class="w-full h-full rounded-[20px] object-cover">
+                </div>
+                <div class="pb-4">
+                    <h1 class="text-3xl font-extrabold text-black">PT Sumber Pangan Mandiri</h1>
+                    <p class="text-green-100 flex items-center">
+                        <i class="fas fa-check-circle text-scrow-yellow mr-2"></i> Supplier Terverifikasi S+CROW
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Column: Business Details -->
+            <div class="lg:col-span-2 space-y-8">
+                
+                <!-- Business Profile Form -->
+                <section class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6 border-b border-gray-50 flex justify-between items-center">
+                        <h3 class="text-xl font-bold">Profil Perusahaan</h3>
+                        <button class="text-scrow-green font-bold text-sm hover:underline">Ubah Data</button>
+                    </div>
+                    <div class="p-8 space-y-6">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nama Entitas Legal</p>
+                                <p class="font-bold text-gray-800">PT SUMBER PANGAN MANDIRI JAYA</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nomor Induk Berusaha (NIB)</p>
+                                <p class="font-bold text-gray-800">12940200054321</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Email Korespondensi</p>
+                                <p class="font-bold text-gray-800">info@sumberpangan.com</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nomor Telepon Kantor</p>
+                                <p class="font-bold text-gray-800">021-555-8899</p>
+                            </div>
+                        </div>
+                        <hr class="border-gray-50">
+                        <div>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Deskripsi Perusahaan</p>
+                            <p class="text-sm text-gray-600 leading-relaxed">Kami adalah produsen dan distributor bahan pangan pokok berkualitas tinggi yang telah melayani ribuan UMKM di Jawa Barat selama lebih dari 10 tahun.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Warehouse Location -->
+                <section class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6 border-b border-gray-50 flex justify-between items-center">
+                        <h3 class="text-xl font-bold">Lokasi Gudang & Logistik</h3>
+                        <button class="px-4 py-2 border border-gray-200 rounded-xl text-xs font-bold hover:bg-gray-50 transition">+ Tambah Gudang</button>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-green-50 text-scrow-green rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fas fa-warehouse"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Gudang Utama (Bandung)</h4>
+                                <p class="text-sm text-gray-500 mt-1">Jl. Industri Raya No. 45, Kawasan Pergudangan Laksana, Kota Bandung, Jawa Barat 40123</p>
+                                <div class="mt-4 flex space-x-2">
+                                    <span class="px-2 py-1 bg-gray-100 text-[10px] font-bold rounded">PICKUP TERSEDIA</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-[10px] font-bold rounded">DULY VERIFIED</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Financial & Verification -->
+            <div class="space-y-8">
+                
+                <!-- Bank Account -->
+                <section class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6 border-b border-gray-50">
+                        <h3 class="text-xl font-bold">Rekening Pencairan</h3>
+                    </div>
+                    <div class="p-8">
+                        <div class="bg-gradient-to-br from-green-900 to-green-800 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden mb-6">
+                            <div class="relative z-10">
+                                <p class="text-[10px] font-bold text-scrow-yellow uppercase tracking-widest opacity-80">Bank Mandiri</p>
+                                <p class="text-lg font-bold mt-2">123-XXXXX-990</p>
+                                <p class="text-xs mt-4 opacity-70">a/n PT SUMBER PANGAN MANDIRI</p>
+                            </div>
+                            <i class="fas fa-university absolute -bottom-4 -right-4 text-white/10 text-6xl"></i>
+                        </div>
+                        <button class="w-full py-3 border border-dashed border-gray-300 rounded-xl text-sm font-bold text-gray-400 hover:border-scrow-green hover:text-scrow-green transition">Atur Rekening Lainnya</button>
+                    </div>
+                </section>
+
+                <!-- Status Performa -->
+                <section class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                    <h3 class="text-lg font-bold mb-6">Statistik Supplier</h3>
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">Response Rate</span>
+                            <span class="text-sm font-bold text-scrow-green">98%</span>
+                        </div>
+                        <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-scrow-green h-full" style="width: 98%"></div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">Order Completion</span>
+                            <span class="text-sm font-bold text-scrow-green">94%</span>
+                        </div>
+                        <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-scrow-green h-full" style="width: 94%"></div>
+                        </div>
+
+                        <div class="pt-4 mt-4 border-t border-gray-50">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-500">Rating Toko</span>
+                                <div class="flex items-center text-scrow-yellow">
+                                    <i class="fas fa-star mr-1"></i>
+                                    <span class="font-bold text-gray-800">4.9/5.0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p>&copy; 2024 S+CROW Supplier Center. Partnering for Growth.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

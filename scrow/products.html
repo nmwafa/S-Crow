@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasar Produk S+CROW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+        .bg-scrow-green { background-color: #15803d; }
+        .text-scrow-green { color: #15803d; }
+        .bg-scrow-yellow { background-color: #facc15; }
+        .text-scrow-yellow { color: #facc15; }
+        .filter-checkbox:checked + label { color: #15803d; font-weight: bold; }
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+    <!-- Navigation Bar -->
+    <nav class="fixed w-full z-50 bg-white shadow-sm border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <!-- Logo & Search -->
+                <div class="flex items-center flex-grow">
+                    <a href="index.html" class="flex items-center space-x-2 mr-8">
+                        <div class="w-9 h-9 bg-scrow-green rounded-lg flex items-center justify-center">
+                            <span class="text-scrow-yellow font-bold text-lg">S+</span>
+                        </div>
+                        <span class="text-xl font-extrabold tracking-tighter text-scrow-green hidden md:block">CROW</span>
+                    </a>
+                    
+                    <div class="relative w-full max-w-xl hidden sm:block">
+                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-300"></i>
+                        <input type="text" placeholder="Cari produk supplier (Beras, Minyak, Gula...)" class="w-full pl-11 pr-4 py-2.5 bg-gray-100 border-transparent rounded-xl focus:bg-white focus:ring-2 focus:ring-green-100 outline-none transition">
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center space-x-4 ml-4">
+                    <a href="dashboard-buyer.html" class="flex items-center px-4 py-2 bg-white border border-scrow-green text-scrow-green font-bold rounded-xl hover:bg-green-50 transition">
+                        <i class="fas fa-th-large mr-2"></i> Dashboard
+                    </a>
+                    <div class="relative group cursor-pointer">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full border-2 border-scrow-yellow flex items-center justify-center">
+                            <i class="fas fa-user text-gray-500"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="pt-24 flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-8 pb-12">
+        
+        <!-- Sidebar Filters -->
+        <aside class="w-full md:w-64 space-y-8 shrink-0">
+            <div>
+                <h3 class="font-bold text-lg mb-4 flex items-center">
+                    <i class="fas fa-filter text-scrow-green mr-2"></i> Filter Produk
+                </h3>
+                
+                <div class="space-y-6">
+                    <!-- Kategori -->
+                    <div>
+                        <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-3">Kategori</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="cat1" class="rounded text-scrow-green focus:ring-scrow-green">
+                                <label for="cat1" class="ml-2 text-sm text-gray-600">Bahan Pokok</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="cat2" class="rounded text-scrow-green focus:ring-scrow-green">
+                                <label for="cat2" class="ml-2 text-sm text-gray-600">Hasil Ternak</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="cat3" class="rounded text-scrow-green focus:ring-scrow-green">
+                                <label for="cat3" class="ml-2 text-sm text-gray-600">Olahan Makanan</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Range Harga -->
+                    <div>
+                        <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-3">Rentang Harga</p>
+                        <div class="space-y-3">
+                            <input type="number" placeholder="Min (Rp)" class="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:border-scrow-green">
+                            <input type="number" placeholder="Max (Rp)" class="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:border-scrow-green">
+                        </div>
+                    </div>
+
+                    <!-- Lokasi Supplier -->
+                    <div>
+                        <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-3">Lokasi Supplier</p>
+                        <select class="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:border-scrow-green bg-white">
+                            <option>Semua Lokasi</option>
+                            <option>Jakarta</option>
+                            <option>Surabaya</option>
+                            <option>Medan</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promo Banner Small -->
+            <div class="bg-scrow-green rounded-2xl p-6 text-white relative overflow-hidden">
+                <div class="relative z-10">
+                    <p class="text-xs font-bold text-scrow-yellow uppercase">Promo Supplier</p>
+                    <p class="font-bold mt-2">Diskon 5% untuk pembelian diatas 100 unit</p>
+                </div>
+                <i class="fas fa-percent absolute -bottom-4 -right-4 text-white/10 text-6xl"></i>
+            </div>
+        </aside>
+
+        <!-- Product Grid Content -->
+        <main class="flex-grow">
+            <!-- Breadcrumbs & Sorting -->
+            <div class="flex flex-col sm:row justify-between items-center mb-8 gap-4">
+                <p class="text-gray-500">Menampilkan <span class="text-gray-900 font-bold">128</span> Produk</p>
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-gray-400">Urutkan:</span>
+                    <select class="bg-transparent font-bold text-sm outline-none cursor-pointer">
+                        <option>Terbaru</option>
+                        <option>Harga Terendah</option>
+                        <option>Harga Tertinggi</option>
+                        <option>Paling Laris</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Product Card 1 -->
+                <div class="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition group">
+                    <div class="relative h-48 rounded-t-3xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=400" alt="Beras Premium" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded-lg text-[10px] font-bold text-scrow-green shadow-sm">
+                            MIN. 10 KARUNG
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-[10px] font-bold text-scrow-green uppercase tracking-widest mb-1">Bahan Pokok</p>
+                        <h4 class="font-bold text-gray-900 mb-1 leading-tight h-10 overflow-hidden">Beras Pandan Wangi Premium 50kg</h4>
+                        <div class="flex items-center text-xs text-gray-400 mb-4">
+                            <i class="fas fa-store mr-1 text-scrow-yellow"></i>
+                            <span>PT Sumber Pangan Mandiri</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <p class="text-[10px] text-gray-400">Harga per Karung</p>
+                                <p class="text-lg font-extrabold text-scrow-green">Rp 750.000</p>
+                            </div>
+                            <button class="w-10 h-10 bg-scrow-yellow text-green-900 rounded-xl flex items-center justify-center hover:shadow-lg transition">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition group">
+                    <div class="relative h-48 rounded-t-3xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1474979266404-7eaacabc88c5?auto=format&fit=crop&q=80&w=400" alt="Minyak Goreng" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="p-6">
+                        <p class="text-[10px] font-bold text-scrow-green uppercase tracking-widest mb-1">Bahan Pokok</p>
+                        <h4 class="font-bold text-gray-900 mb-1 leading-tight h-10 overflow-hidden">Minyak Goreng Sawit Kemasan 20L</h4>
+                        <div class="flex items-center text-xs text-gray-400 mb-4">
+                            <i class="fas fa-store mr-1 text-scrow-yellow"></i>
+                            <span>Distributor Jaya Lestari</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <p class="text-[10px] text-gray-400">Harga per Jerigen</p>
+                                <p class="text-lg font-extrabold text-scrow-green">Rp 280.000</p>
+                            </div>
+                            <button class="w-10 h-10 bg-scrow-yellow text-green-900 rounded-xl flex items-center justify-center hover:shadow-lg transition">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition group">
+                    <div class="relative h-48 rounded-t-3xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1529666635812-a5ecb8c1ec0e?auto=format&fit=crop&q=80&w=400" alt="Gula Pasir" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute top-3 left-3 bg-red-500 px-2 py-1 rounded-lg text-[10px] font-bold text-white shadow-sm uppercase tracking-wider">
+                            STOK TERBATAS
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-[10px] font-bold text-scrow-green uppercase tracking-widest mb-1">Bahan Pokok</p>
+                        <h4 class="font-bold text-gray-900 mb-1 leading-tight h-10 overflow-hidden">Gula Pasir Kristal Putih 50kg</h4>
+                        <div class="flex items-center text-xs text-gray-400 mb-4">
+                            <i class="fas fa-store mr-1 text-scrow-yellow"></i>
+                            <span>Gudang Gula Nasional</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <p class="text-[10px] text-gray-400">Harga per Sak</p>
+                                <p class="text-lg font-extrabold text-scrow-green">Rp 620.000</p>
+                            </div>
+                            <button class="w-10 h-10 bg-scrow-yellow text-green-900 rounded-xl flex items-center justify-center hover:shadow-lg transition">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition group">
+                    <div class="relative h-48 rounded-t-3xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&q=80&w=400" alt="Daging Ayam" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="p-6">
+                        <p class="text-[10px] font-bold text-scrow-green uppercase tracking-widest mb-1">Hasil Ternak</p>
+                        <h4 class="font-bold text-gray-900 mb-1 leading-tight h-10 overflow-hidden">Daging Ayam Karkas Frozen 1kg</h4>
+                        <div class="flex items-center text-xs text-gray-400 mb-4">
+                            <i class="fas fa-store mr-1 text-scrow-yellow"></i>
+                            <span>Livestock Indo Prima</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <p class="text-[10px] text-gray-400">Harga per Kg</p>
+                                <p class="text-lg font-extrabold text-scrow-green">Rp 32.500</p>
+                            </div>
+                            <button class="w-10 h-10 bg-scrow-yellow text-green-900 rounded-xl flex items-center justify-center hover:shadow-lg transition">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 5 (Add more placeholders) -->
+                <div class="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition group">
+                    <div class="relative h-48 rounded-t-3xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1582401656496-9d75f95f9018?auto=format&fit=crop&q=80&w=400" alt="Telur Ayam" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="p-6">
+                        <p class="text-[10px] font-bold text-scrow-green uppercase tracking-widest mb-1">Hasil Ternak</p>
+                        <h4 class="font-bold text-gray-900 mb-1 leading-tight h-10 overflow-hidden">Telur Ayam Negeri Bulk (Peti 15kg)</h4>
+                        <div class="flex items-center text-xs text-gray-400 mb-4">
+                            <i class="fas fa-store mr-1 text-scrow-yellow"></i>
+                            <span>Egg Farm Terpadu</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <p class="text-[10px] text-gray-400">Harga per Peti</p>
+                                <p class="text-lg font-extrabold text-scrow-green">Rp 345.000</p>
+                            </div>
+                            <button class="w-10 h-10 bg-scrow-yellow text-green-900 rounded-xl flex items-center justify-center hover:shadow-lg transition">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 6 -->
+                <div class="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition group">
+                    <div class="relative h-48 rounded-t-3xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&q=80&w=400" alt="Sayuran" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="p-6">
+                        <p class="text-[10px] font-bold text-scrow-green uppercase tracking-widest mb-1">Olahan Makanan</p>
+                        <h4 class="font-bold text-gray-900 mb-1 leading-tight h-10 overflow-hidden">Sayuran Segar Mix (Grosir Harian)</h4>
+                        <div class="flex items-center text-xs text-gray-400 mb-4">
+                            <i class="fas fa-store mr-1 text-scrow-yellow"></i>
+                            <span>Agro Lembang Sejahtera</span>
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <p class="text-[10px] text-gray-400">Harga per Paket</p>
+                                <p class="text-lg font-extrabold text-scrow-green">Rp 120.000</p>
+                            </div>
+                            <button class="w-10 h-10 bg-scrow-yellow text-green-900 rounded-xl flex items-center justify-center hover:shadow-lg transition">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-12 flex justify-center space-x-2">
+                <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-white border border-gray-200 text-gray-400 hover:text-scrow-green transition"><i class="fas fa-chevron-left"></i></button>
+                <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-scrow-green text-white font-bold">1</button>
+                <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-white border border-gray-200 text-gray-600 hover:border-scrow-green transition">2</button>
+                <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-white border border-gray-200 text-gray-600 hover:border-scrow-green transition">3</button>
+                <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-white border border-gray-200 text-gray-400 hover:text-scrow-green transition"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Sticky Cart Summary (Mobile) -->
+    <div class="md:hidden fixed bottom-6 right-6 z-50">
+        <button class="w-16 h-16 bg-scrow-green text-scrow-yellow rounded-full shadow-2xl flex items-center justify-center text-xl">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="absolute -top-1 -right-1 w-6 h-6 bg-red-500 text-white text-[10px] flex items-center justify-center rounded-full font-bold border-2 border-white">3</span>
+        </button>
+    </div>
+
+    <footer class="bg-white border-t border-gray-100 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-400">
+            <p>&copy; 2024 S+CROW Marketplace. Transaksi Aman, Bisnis Lancar.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
