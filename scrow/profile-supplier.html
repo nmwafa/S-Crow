@@ -13,12 +13,17 @@
         .text-scrow-green { color: #15803d; }
         .bg-scrow-yellow { background-color: #facc15; }
         .text-scrow-yellow { color: #facc15; }
+        
+        /* Kustomisasi scrollbar untuk modal */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
 
     <!-- Navigation -->
-    <nav class="bg-scrow-green text-white sticky top-0 z-50">
+    <nav class="bg-scrow-green text-white sticky top-0 z-40 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20">
                 <div class="flex items-center">
@@ -29,9 +34,9 @@
                         <span class="text-xl font-extrabold tracking-tighter text-white">CROW</span>
                     </a>
                 </div>
-                <div class="flex items-center space-x-6">
-                    <span class="text-xs font-bold bg-white/20 px-3 py-1 rounded-full uppercase tracking-widest">Supplier Mode</span>
-                    <a href="dashboard-supplier.html" class="px-4 py-2 bg-scrow-yellow text-green-900 font-bold rounded-xl hover:shadow-lg transition">Dashboard</a>
+                <div class="flex items-center space-x-4 sm:space-x-6">
+                    <span class="hidden sm:block text-xs font-bold bg-white/20 px-3 py-1 rounded-full uppercase tracking-widest">Supplier Mode</span>
+                    <a href="dashboard-supplier.html" class="px-4 py-2 bg-scrow-yellow text-green-900 font-bold rounded-xl hover:shadow-lg transition text-sm">Dashboard</a>
                 </div>
             </div>
         </div>
@@ -40,34 +45,37 @@
     <!-- Header / Banner -->
     <div class="h-48 bg-gradient-to-r from-green-800 to-green-600 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative h-full">
-            <div class="absolute -bottom-16 flex items-end space-x-6">
-                <div class="w-32 h-32 bg-white rounded-3xl shadow-xl p-1">
+            <!-- Profil Avatar merespon Mobile -->
+            <div class="absolute -bottom-12 sm:-bottom-16 flex flex-col sm:flex-row items-center sm:items-end space-y-4 sm:space-y-0 sm:space-x-6 text-center sm:text-left w-full sm:w-auto left-0 sm:left-auto px-4 sm:px-0">
+                <div class="w-24 h-24 sm:w-32 sm:h-32 bg-white rounded-3xl shadow-xl p-1 shrink-0 mx-auto sm:mx-0">
                     <img src="https://ui-avatars.com/api/?name=PT+Sumber+Pangan&background=facc15&color=15803d&size=128" alt="Logo Perusahaan" class="w-full h-full rounded-[20px] object-cover">
                 </div>
-                <div class="pb-4">
-                    <h1 class="text-3xl font-extrabold text-black">PT Sumber Pangan Mandiri</h1>
-                    <p class="text-green-100 flex items-center">
-                        <i class="fas fa-check-circle text-scrow-yellow mr-2"></i> Supplier Terverifikasi S+CROW
+                <div class="pb-2 sm:pb-10 bg-white/80 sm:bg-transparent px-4 sm:px-0 py-2 sm:py-0 rounded-xl sm:rounded-none backdrop-blur-sm sm:backdrop-blur-none inline-block mt-4 sm:mt-0">
+                    <h1 class="text-xl sm:text-3xl font-extrabold text-gray-900 sm:text-black">PT Sumber Pangan Mandiri</h1>
+                    <p class="text-scrow-black sm:text-black-100 flex items-center justify-center sm:justify-start font-bold text-xs sm:text-base mt-1">
+                        <i class="fas fa-check-circle text-scrow-green sm:text-scrow-black mr-2"></i> Supplier Terverifikasi S+CROW
                     </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 sm:pt-24 pb-12">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
             <!-- Left Column: Business Details -->
             <div class="lg:col-span-2 space-y-8">
                 
-                <!-- Business Profile Form -->
+                <!-- Business Profile Section -->
                 <section class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div class="p-6 border-b border-gray-50 flex justify-between items-center">
-                        <h3 class="text-xl font-bold">Profil Perusahaan</h3>
-                        <button class="text-scrow-green font-bold text-sm hover:underline">Ubah Data</button>
+                    <div class="p-4 sm:p-6 border-b border-gray-50 flex justify-between items-center">
+                        <h3 class="text-lg sm:text-xl font-bold">Profil Perusahaan</h3>
+                        <button onclick="bukaModal('modalEditProfil')" class="text-scrow-green font-bold text-xs sm:text-sm hover:underline flex items-center">
+                            <i class="fas fa-edit mr-1"></i> Ubah Data
+                        </button>
                     </div>
-                    <div class="p-8 space-y-6">
-                        <div class="grid md:grid-cols-2 gap-8">
+                    <div class="p-6 sm:p-8 space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                             <div>
                                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nama Entitas Legal</p>
                                 <p class="font-bold text-gray-800">PT SUMBER PANGAN MANDIRI JAYA</p>
@@ -93,23 +101,29 @@
                     </div>
                 </section>
 
-                <!-- Warehouse Location -->
+                <!-- Warehouse Location Section -->
                 <section class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div class="p-6 border-b border-gray-50 flex justify-between items-center">
-                        <h3 class="text-xl font-bold">Lokasi Gudang & Logistik</h3>
-                        <button class="px-4 py-2 border border-gray-200 rounded-xl text-xs font-bold hover:bg-gray-50 transition">+ Tambah Gudang</button>
+                    <div class="p-4 sm:p-6 border-b border-gray-50 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                        <h3 class="text-lg sm:text-xl font-bold">Lokasi Gudang & Logistik</h3>
+                        <button onclick="bukaModal('modalTambahGudang')" class="w-full sm:w-auto px-4 py-2 border border-gray-200 rounded-xl text-xs font-bold hover:bg-gray-50 hover:text-scrow-green hover:border-scrow-green transition flex items-center justify-center">
+                            <i class="fas fa-plus mr-1"></i> Tambah Gudang
+                        </button>
                     </div>
-                    <div class="p-8">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-12 h-12 bg-green-50 text-scrow-green rounded-xl flex items-center justify-center shrink-0">
+                    <div class="p-6 sm:p-8">
+                        <!-- Gudang Card -->
+                        <div class="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-4 p-4 border border-gray-100 rounded-2xl bg-gray-50/50 hover:border-scrow-green transition cursor-pointer">
+                            <div class="w-12 h-12 bg-green-50 text-scrow-green rounded-xl flex items-center justify-center shrink-0 text-lg">
                                 <i class="fas fa-warehouse"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold">Gudang Utama (Bandung)</h4>
-                                <p class="text-sm text-gray-500 mt-1">Jl. Industri Raya No. 45, Kawasan Pergudangan Laksana, Kota Bandung, Jawa Barat 40123</p>
-                                <div class="mt-4 flex space-x-2">
-                                    <span class="px-2 py-1 bg-gray-100 text-[10px] font-bold rounded">PICKUP TERSEDIA</span>
-                                    <span class="px-2 py-1 bg-gray-100 text-[10px] font-bold rounded">DULY VERIFIED</span>
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <h4 class="font-bold text-gray-800">Gudang Utama (Bandung)</h4>
+                                    <span class="bg-scrow-green text-white text-[9px] px-2 py-0.5 rounded uppercase font-bold tracking-wider">Utama</span>
+                                </div>
+                                <p class="text-sm text-gray-500">Jl. Industri Raya No. 45, Kawasan Pergudangan Laksana, Kota Bandung, Jawa Barat 40123</p>
+                                <div class="mt-3 flex flex-wrap gap-2">
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-[10px] font-bold rounded border border-gray-200"><i class="fas fa-truck-loading mr-1"></i> PICKUP TERSEDIA</span>
+                                    <span class="px-2 py-1 bg-green-50 text-scrow-green text-[10px] font-bold rounded border border-green-100"><i class="fas fa-shield-alt mr-1"></i> VERIFIED</span>
                                 </div>
                             </div>
                         </div>
@@ -120,26 +134,28 @@
             <!-- Right Column: Financial & Verification -->
             <div class="space-y-8">
                 
-                <!-- Bank Account -->
+                <!-- Bank Account Section -->
                 <section class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="p-6 border-b border-gray-50">
-                        <h3 class="text-xl font-bold">Rekening Pencairan</h3>
+                        <h3 class="text-lg sm:text-xl font-bold">Rekening Pencairan</h3>
                     </div>
-                    <div class="p-8">
+                    <div class="p-6 sm:p-8">
                         <div class="bg-gradient-to-br from-green-900 to-green-800 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden mb-6">
                             <div class="relative z-10">
                                 <p class="text-[10px] font-bold text-scrow-yellow uppercase tracking-widest opacity-80">Bank Mandiri</p>
-                                <p class="text-lg font-bold mt-2">123-XXXXX-990</p>
+                                <p class="text-xl sm:text-2xl font-bold mt-2 tracking-wider">123-XXXXX-990</p>
                                 <p class="text-xs mt-4 opacity-70">a/n PT SUMBER PANGAN MANDIRI</p>
                             </div>
                             <i class="fas fa-university absolute -bottom-4 -right-4 text-white/10 text-6xl"></i>
                         </div>
-                        <button class="w-full py-3 border border-dashed border-gray-300 rounded-xl text-sm font-bold text-gray-400 hover:border-scrow-green hover:text-scrow-green transition">Atur Rekening Lainnya</button>
+                        <button onclick="bukaModal('modalAturRekening')" class="w-full py-3 border-2 border-dashed border-gray-300 rounded-xl text-sm font-bold text-gray-500 hover:border-scrow-green hover:text-scrow-green hover:bg-green-50 transition flex items-center justify-center">
+                            <i class="fas fa-university mr-2"></i> Atur Rekening Lainnya
+                        </button>
                     </div>
                 </section>
 
                 <!-- Status Performa -->
-                <section class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                <section class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 sm:p-8">
                     <h3 class="text-lg font-bold mb-6">Statistik Supplier</h3>
                     <div class="space-y-6">
                         <div class="flex justify-between items-center">
@@ -162,8 +178,8 @@
                             <div class="flex items-center justify-between">
                                 <span class="text-sm text-gray-500">Rating Toko</span>
                                 <div class="flex items-center text-scrow-yellow">
-                                    <i class="fas fa-star mr-1"></i>
-                                    <span class="font-bold text-gray-800">4.9/5.0</span>
+                                    <i class="fas fa-star mr-1 text-lg"></i>
+                                    <span class="font-bold text-gray-800 text-lg">4.9<span class="text-xs text-gray-400">/5.0</span></span>
                                 </div>
                             </div>
                         </div>
@@ -176,9 +192,170 @@
 
     <footer class="bg-gray-900 text-white py-12 mt-12">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <p>&copy; 2024 S+CROW Supplier Center. Partnering for Growth.</p>
+            <p class="text-sm text-gray-400">&copy; 2026 S+CROW Supplier Center. Partnering for Growth.</p>
         </div>
     </footer>
 
+    <!-- ========================================================================= -->
+    <!-- SEMUA MODAL POP-UP (Ubah Data, Tambah Gudang, Atur Rekening)              -->
+    <!-- ========================================================================= -->
+
+    <!-- 1. MODAL UBAH DATA PROFIL -->
+    <div id="modalEditProfil" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]" id="modalEditProfilContent">
+            <!-- Header Modal -->
+            <div class="p-5 sm:p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50 shrink-0">
+                <h3 class="text-lg font-bold text-gray-800"><i class="fas fa-edit text-scrow-green mr-2"></i> Ubah Data Perusahaan</h3>
+                <button onclick="tutupModal('modalEditProfil')" class="text-gray-400 hover:text-red-500 transition focus:outline-none"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <!-- Body Form -->
+            <div class="p-5 sm:p-6 overflow-y-auto custom-scrollbar">
+                <form onsubmit="event.preventDefault(); notifikasiSukses('Data profil perusahaan berhasil diperbarui!', 'modalEditProfil');" class="space-y-5">
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wide">Nama Entitas Legal</label>
+                            <input type="text" value="PT SUMBER PANGAN MANDIRI JAYA" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green text-sm" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wide">Nomor NIB</label>
+                            <input type="text" value="12940200054321" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green text-sm" required>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wide">Email Kantor</label>
+                            <input type="email" value="info@sumberpangan.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green text-sm" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wide">No Telepon Kantor</label>
+                            <input type="text" value="021-555-8899" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green text-sm" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wide">Deskripsi Perusahaan</label>
+                        <textarea class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green text-sm h-24 resize-none custom-scrollbar" required>Kami adalah produsen dan distributor bahan pangan pokok berkualitas tinggi yang telah melayani ribuan UMKM di Jawa Barat selama lebih dari 10 tahun.</textarea>
+                    </div>
+                    <div class="pt-4 border-t border-gray-100 flex justify-end gap-3 mt-4">
+                        <button type="button" onclick="tutupModal('modalEditProfil')" class="px-5 py-2.5 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition text-sm">Batal</button>
+                        <button type="submit" class="px-5 py-2.5 bg-scrow-green text-white font-bold rounded-xl hover:bg-green-800 transition shadow-md text-sm">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MODAL TAMBAH GUDANG BARU -->
+    <div id="modalTambahGudang" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]" id="modalTambahGudangContent">
+            <div class="p-5 sm:p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50 shrink-0">
+                <h3 class="text-lg font-bold text-gray-800"><i class="fas fa-plus-square text-scrow-green mr-2"></i> Tambah Lokasi Gudang</h3>
+                <button onclick="tutupModal('modalTambahGudang')" class="text-gray-400 hover:text-red-500 transition focus:outline-none"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <div class="p-5 sm:p-6 overflow-y-auto custom-scrollbar">
+                <form onsubmit="event.preventDefault(); notifikasiSukses('Lokasi Gudang Baru berhasil ditambahkan!', 'modalTambahGudang');" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wide">Nama / Label Gudang</label>
+                        <input type="text" placeholder="Contoh: Gudang Cabang Jakarta" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green text-sm" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wide">Alamat Lengkap Gudang</label>
+                        <textarea placeholder="Nama Jalan, RT/RW, Kelurahan, Kecamatan, Kota, Provinsi, Kode Pos" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green text-sm h-24 resize-none custom-scrollbar" required></textarea>
+                    </div>
+                    <div class="flex items-start space-x-3 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <input type="checkbox" id="pickup_opt" class="mt-1 w-4 h-4 rounded border-gray-300 text-scrow-green focus:ring-scrow-green">
+                        <label for="pickup_opt" class="text-sm text-gray-700 cursor-pointer">
+                            <span class="font-bold block">Izinkan Pengambilan Sendiri (Pickup)</span>
+                            <span class="text-xs text-gray-500">Buyer dapat mengambil barang langsung ke gudang ini menggunakan armada mereka sendiri.</span>
+                        </label>
+                    </div>
+                    <div class="pt-4 flex justify-end gap-3">
+                        <button type="button" onclick="tutupModal('modalTambahGudang')" class="w-full sm:w-auto px-5 py-2.5 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition text-sm">Batal</button>
+                        <button type="submit" class="w-full sm:w-auto px-5 py-2.5 bg-scrow-green text-white font-bold rounded-xl hover:bg-green-800 transition shadow-md text-sm">Tambah Gudang</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. MODAL ATUR REKENING LAINNYA -->
+    <div id="modalAturRekening" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]" id="modalAturRekeningContent">
+            <div class="p-5 sm:p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50 shrink-0">
+                <h3 class="text-lg font-bold text-gray-800"><i class="fas fa-university text-scrow-green mr-2"></i> Tambah Rekening Bank</h3>
+                <button onclick="tutupModal('modalAturRekening')" class="text-gray-400 hover:text-red-500 transition focus:outline-none"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <div class="p-5 sm:p-6 overflow-y-auto custom-scrollbar">
+                
+                <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6 flex items-start space-x-3">
+                    <i class="fas fa-info-circle text-yellow-600 mt-0.5"></i>
+                    <p class="text-xs text-yellow-700 leading-relaxed">
+                        Demi keamanan, nama pemilik rekening <b>wajib sama</b> dengan nama legal entitas perusahaan yang terdaftar (PT SUMBER PANGAN MANDIRI JAYA).
+                    </p>
+                </div>
+
+                <form onsubmit="event.preventDefault(); notifikasiSukses('Pengajuan rekening bank baru berhasil dikirim dan sedang diverifikasi.', 'modalAturRekening');" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wide">Pilih Bank</label>
+                        <select class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green text-sm bg-white" required>
+                            <option value="">-- Pilih Bank Tujuan --</option>
+                            <option>Bank BCA</option>
+                            <option>Bank BNI</option>
+                            <option>Bank BRI</option>
+                            <option>Bank CIMB Niaga</option>
+                            <option>Bank Lainnya...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wide">Nomor Rekening</label>
+                        <input type="number" placeholder="Contoh: 8812345678" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green text-sm" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wide">Nama Pemilik Rekening</label>
+                        <input type="text" placeholder="Wajib sesuai dengan identitas bisnis" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green text-sm" required>
+                    </div>
+                    
+                    <div class="pt-4 flex justify-end gap-3 mt-4">
+                        <button type="button" onclick="tutupModal('modalAturRekening')" class="w-full sm:w-auto px-5 py-2.5 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition text-sm">Batal</button>
+                        <button type="submit" class="w-full sm:w-auto px-5 py-2.5 bg-scrow-yellow text-green-900 font-bold rounded-xl hover:shadow-md transition text-sm">Verifikasi Rekening</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SCRIPT VANILLA JAVASCRIPT                  -->
+    <!-- ========================================== -->
+    <script>
+        // Fungsi Buka Modal Universal
+        function bukaModal(idModal) {
+            const modal = document.getElementById(idModal);
+            const content = document.getElementById(idModal + 'Content');
+            modal.classList.remove('hidden');
+            // Delay tipis agar animasi transisi Tailwind terbaca
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+        }
+
+        // Fungsi Tutup Modal Universal
+        function tutupModal(idModal) {
+            const modal = document.getElementById(idModal);
+            const content = document.getElementById(idModal + 'Content');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            // Tunggu animasi CSS selesai baru disembunyikan
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Simulasi Submit Form dengan Alert
+        function notifikasiSukses(pesan, idModal) {
+            alert(pesan);
+            tutupModal(idModal);
+        }
+    </script>
 </body>
 </html>
