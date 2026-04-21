@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dana Escrow - S+CROW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+        .bg-scrow-green { background-color: #15803d; }
+        .text-scrow-green { color: #15803d; }
+        .bg-scrow-yellow { background-color: #facc15; }
+        .sidebar-item:hover { background-color: #f1f5f9; }
+        .sidebar-item.active { border-left: 4px solid #facc15; background-color: #f8fafc; color: #15803d; }
+    </style>
+</head>
+<body class="bg-slate-50 flex min-h-screen relative overflow-hidden">
+
+    <!-- Latar Gelap (Overlay) untuk Mobile -->
+    <div id="escrowOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity"></div>
+
+    <!-- Sidebar -->
+    <aside id="escrowSidebar" class="w-64 bg-white border-r border-slate-200 flex flex-col fixed inset-y-0 left-0 transform -translate-x-full lg:relative lg:translate-x-0 transition-transform duration-300 z-50 shrink-0 shadow-2xl lg:shadow-none">
+        <div class="p-6 flex items-center justify-between border-b border-gray-50">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-scrow-green rounded-xl flex items-center justify-center text-scrow-yellow">
+                    <i class="fas fa-shopping-basket"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tighter text-scrow-green">S+CROW</span>
+            </div>
+            <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-scrow-green text-xl"><i class="fas fa-times"></i></button>
+        </div>
+
+        <nav class="flex-grow mt-6 overflow-y-auto">
+            <a href="dashboard-buyer.html" class="sidebar-item flex items-center px-6 py-4 transition group">
+                <i class="fas fa-home w-8 text-xl lg:text-base"></i><span class="font-medium">Beranda Dashboard</span>
+            </a>
+            <a href="products.html" class="sidebar-item flex items-center px-6 py-4 transition text-slate-500 hover:text-scrow-green">
+                <i class="fas fa-search w-8 text-xl lg:text-base"></i><span class="font-medium">Cari Supplier</span>
+            </a>
+            <a href="detail-pesanan.html" class="sidebar-item flex items-center px-6 py-4 transition text-slate-500 hover:text-scrow-green">
+                <i class="fas fa-box-open w-8 text-xl lg:text-base"></i><span class="font-medium">Pesanan Saya</span>
+            </a>
+            <a href="dana-escrow.html" class="sidebar-item active flex items-center px-6 py-4 transition text-slate-500 hover:text-scrow-green">
+                <i class="fas fa-shield-alt w-8 text-xl lg:text-base"></i><span class="font-bold">Dana Escrow</span>
+            </a>
+            <a href="profile-buyer.html" class="sidebar-item flex items-center px-6 py-4 transition text-slate-500 hover:text-scrow-green">
+                <i class="fas fa-user-circle w-8 text-xl lg:text-base"></i><span class="font-medium">Profil Akun</span>
+            </a>
+        </nav>
+
+        <div class="p-6 mt-auto">
+            <a href="index.html" class="flex items-center px-4 text-slate-400 hover:text-red-500 transition">
+                <i class="fas fa-power-off w-8"></i> <span>Keluar</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-4 lg:p-8 h-screen overflow-y-auto w-full">
+        
+        <!-- Navbar Mobile Only -->
+        <div class="lg:hidden flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm mb-6 border border-slate-100">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-scrow-green rounded flex items-center justify-center text-scrow-yellow text-xs"><i class="fas fa-wallet"></i></div>
+                <span class="font-bold text-scrow-green">Dompet Escrow</span>
+            </div>
+            <button onclick="toggleSidebar()" class="text-slate-600 focus:outline-none"><i class="fas fa-bars text-xl"></i></button>
+        </div>
+
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800">Dompet S+CROW</h1>
+                <p class="text-slate-500 text-sm mt-1">Kelola saldo, penarikan, dan pantau dana yang ditahan.</p>
+            </div>
+            <!-- Quick Actions -->
+            <div class="flex gap-3">
+                <button onclick="bukaModal('modalTarik')" class="flex-1 md:flex-none px-5 py-3 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition text-sm flex items-center justify-center shadow-sm">
+                    <i class="fas fa-arrow-down mr-2 text-red-500"></i> Tarik Dana
+                </button>
+                <button onclick="bukaModal('modalTopUp')" class="flex-1 md:flex-none px-5 py-3 bg-scrow-yellow text-green-900 font-bold rounded-xl hover:shadow-md transition text-sm flex items-center justify-center shadow-sm">
+                    <i class="fas fa-plus mr-2"></i> Top Up Saldo
+                </button>
+            </div>
+        </div>
+
+        <!-- Wallet Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-10">
+            
+            <!-- Saldo Tersedia -->
+            <div class="bg-gradient-to-br from-green-800 to-scrow-green p-6 sm:p-8 rounded-3xl shadow-lg shadow-green-900/20 relative overflow-hidden text-white">
+                <div class="relative z-10">
+                    <div class="flex justify-between items-start mb-6">
+                        <p class="text-green-100 text-xs font-bold uppercase tracking-widest">Saldo Tersedia</p>
+                        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"><i class="fas fa-check"></i></div>
+                    </div>
+                    <h3 class="text-3xl sm:text-4xl font-extrabold mb-1">Rp 25.000.000</h3>
+                    <p class="text-xs text-green-200 mt-2">Dapat digunakan atau ditarik kapan saja.</p>
+                </div>
+                <!-- Hiasan Card -->
+                <i class="fas fa-wallet absolute -bottom-6 -right-6 text-white/10 text-8xl transform -rotate-12"></i>
+            </div>
+
+            <!-- Dana Ditahan (Escrow) -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-orange-100 relative overflow-hidden group">
+                <div class="relative z-10">
+                    <div class="flex justify-between items-start mb-6">
+                        <p class="text-gray-400 text-xs font-bold uppercase tracking-widest">Dana Dibekukan <i class="fas fa-info-circle text-gray-300 ml-1 cursor-help" title="Dana sedang ditahan di Escrow untuk transaksi aktif"></i></p>
+                        <div class="w-8 h-8 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center"><i class="fas fa-lock"></i></div>
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mb-1">Rp 17.500.000</h3>
+                    <p class="text-xs text-orange-500 font-bold mt-2 flex items-center">
+                        <span class="w-2 h-2 rounded-full bg-orange-500 mr-2 animate-pulse"></span> Dalam 1 Transaksi Aktif
+                    </p>
+                </div>
+            </div>
+
+            <!-- Total Pengeluaran Bulan Ini -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden hidden lg:block">
+                <div class="relative z-10">
+                    <div class="flex justify-between items-start mb-6">
+                        <p class="text-gray-400 text-xs font-bold uppercase tracking-widest">Pengeluaran Bulan Ini</p>
+                        <div class="w-8 h-8 bg-gray-50 text-gray-400 rounded-full flex items-center justify-center"><i class="fas fa-chart-line"></i></div>
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mb-1">Rp 4.250.000</h3>
+                    <p class="text-xs text-gray-400 mt-2">Update terakhir hari ini 08:00 WIB</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Riwayat Transaksi -->
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-5 sm:p-6 border-b border-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <h3 class="text-lg font-bold text-slate-800">Riwayat Dana</h3>
+                <!-- Tabs Filter -->
+                <div class="flex space-x-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 hide-scrollbar">
+                    <button class="px-4 py-1.5 bg-scrow-green text-white text-xs font-bold rounded-full whitespace-nowrap">Semua</button>
+                    <button class="px-4 py-1.5 bg-gray-50 text-gray-500 hover:bg-gray-100 text-xs font-bold rounded-full whitespace-nowrap transition">Masuk</button>
+                    <button class="px-4 py-1.5 bg-gray-50 text-gray-500 hover:bg-gray-100 text-xs font-bold rounded-full whitespace-nowrap transition">Keluar</button>
+                    <button class="px-4 py-1.5 bg-gray-50 text-gray-500 hover:bg-gray-100 text-xs font-bold rounded-full whitespace-nowrap transition">Ditahan</button>
+                </div>
+            </div>
+
+            <!-- Daftar Transaksi (Menggunakan List Card agar ramah Mobile) -->
+            <div class="divide-y divide-gray-50">
+                
+                <!-- Item 1: Dana Ditahan (Escrow) -->
+                <div class="p-5 sm:p-6 hover:bg-gray-50 transition flex flex-col sm:flex-row justify-between sm:items-center gap-4 cursor-pointer">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center shrink-0 text-xl"><i class="fas fa-lock"></i></div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm sm:text-base">Pembayaran Ditahan (Escrow)</h4>
+                            <p class="text-xs text-gray-500 mt-1">Pembayaran pesanan <span class="font-bold text-scrow-green">#ORD-9920</span> kepada PT Sumber Pangan.</p>
+                            <p class="text-[10px] text-gray-400 mt-2 font-bold uppercase tracking-wider">12 Okt 2023, 08:30 WIB</p>
+                        </div>
+                    </div>
+                    <div class="text-left sm:text-right ml-16 sm:ml-0">
+                        <p class="font-extrabold text-orange-500">- Rp 17.500.000</p>
+                        <span class="inline-block mt-1 px-2 py-0.5 bg-orange-100 text-orange-700 text-[9px] font-bold rounded">ON HOLD</span>
+                    </div>
+                </div>
+
+                <!-- Item 2: Top Up Masuk -->
+                <div class="p-5 sm:p-6 hover:bg-gray-50 transition flex flex-col sm:flex-row justify-between sm:items-center gap-4 cursor-pointer">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-green-50 text-scrow-green flex items-center justify-center shrink-0 text-xl"><i class="fas fa-arrow-down"></i></div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm sm:text-base">Top Up Saldo Berhasil</h4>
+                            <p class="text-xs text-gray-500 mt-1">Transfer dari Bank Mandiri a/n Budi Sejahtera.</p>
+                            <p class="text-[10px] text-gray-400 mt-2 font-bold uppercase tracking-wider">10 Okt 2023, 14:15 WIB</p>
+                        </div>
+                    </div>
+                    <div class="text-left sm:text-right ml-16 sm:ml-0">
+                        <p class="font-extrabold text-scrow-green">+ Rp 30.000.000</p>
+                        <span class="inline-block mt-1 px-2 py-0.5 bg-green-100 text-scrow-green text-[9px] font-bold rounded">BERHASIL</span>
+                    </div>
+                </div>
+
+                <!-- Item 3: Transaksi Selesai (Uang Keluar ke Supplier) -->
+                <div class="p-5 sm:p-6 hover:bg-gray-50 transition flex flex-col sm:flex-row justify-between sm:items-center gap-4 cursor-pointer">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center shrink-0 text-xl"><i class="fas fa-arrow-up"></i></div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm sm:text-base">Pelepasan Dana ke Supplier</h4>
+                            <p class="text-xs text-gray-500 mt-1">Pesanan <span class="font-bold text-gray-600">#ORD-9811</span> selesai. Dana diteruskan ke Agro Lembang.</p>
+                            <p class="text-[10px] text-gray-400 mt-2 font-bold uppercase tracking-wider">05 Okt 2023, 09:00 WIB</p>
+                        </div>
+                    </div>
+                    <div class="text-left sm:text-right ml-16 sm:ml-0">
+                        <p class="font-extrabold text-gray-800">- Rp 4.250.000</p>
+                        <span class="inline-block mt-1 px-2 py-0.5 bg-gray-200 text-gray-600 text-[9px] font-bold rounded">SELESAI</span>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Pagination / Load More -->
+            <div class="p-4 bg-gray-50 text-center border-t border-gray-100">
+                <button class="text-sm font-bold text-scrow-green hover:underline">Muat Transaksi Terdahulu <i class="fas fa-chevron-down ml-1"></i></button>
+            </div>
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- MODAL POPUP: TOP UP SALDO                  -->
+    <!-- ========================================== -->
+    <div id="modalTopUp" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300" id="modalTopUpContent">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <h3 class="text-lg font-bold text-gray-800"><i class="fas fa-plus-circle text-scrow-green mr-2"></i> Top Up Saldo</h3>
+                <button onclick="tutupModal('modalTopUp')" class="text-gray-400 hover:text-red-500 transition focus:outline-none"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <div class="p-6">
+                <form onsubmit="event.preventDefault(); notifikasiSukses('Top Up Rp ' + document.getElementById('nominalTopUp').value + ' berhasil dibuat. Menunggu pembayaran Anda.', 'modalTopUp');" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Nominal Top Up (Rp)</label>
+                        <input type="number" id="nominalTopUp" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green text-lg font-bold text-gray-800" placeholder="Contoh: 5000000" min="100000" required>
+                        <p class="text-[10px] text-gray-400 mt-1">Minimal Top Up: Rp 100.000</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Pilih Metode Pembayaran</label>
+                        <select class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green text-sm bg-white" required>
+                            <option value="">-- Pilih Bank --</option>
+                            <option>Transfer Bank Mandiri (Virtual Account)</option>
+                            <option>Transfer BCA (Virtual Account)</option>
+                            <option>Transfer BNI (Virtual Account)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-scrow-green text-white font-bold rounded-xl hover:bg-green-800 transition shadow-lg mt-4">
+                        Lanjut ke Pembayaran
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL POPUP: TARIK DANA (WITHDRAWAL)       -->
+    <!-- ========================================== -->
+    <div id="modalTarik" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300" id="modalTarikContent">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <h3 class="text-lg font-bold text-gray-800"><i class="fas fa-arrow-down text-red-500 mr-2"></i> Tarik Dana (Withdraw)</h3>
+                <button onclick="tutupModal('modalTarik')" class="text-gray-400 hover:text-red-500 transition focus:outline-none"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <div class="p-6">
+                <!-- Info Saldo -->
+                <div class="bg-green-50 rounded-2xl p-4 mb-6 border border-green-100 flex justify-between items-center">
+                    <div>
+                        <p class="text-[10px] font-bold text-scrow-green uppercase">Saldo Dapat Ditarik</p>
+                        <p class="text-lg font-extrabold text-gray-800">Rp 25.000.000</p>
+                    </div>
+                    <button class="text-xs font-bold text-scrow-green bg-white px-2 py-1 rounded border border-green-200 hover:bg-green-100">Tarik Semua</button>
+                </div>
+
+                <form onsubmit="event.preventDefault(); notifikasiSukses('Permintaan penarikan dana sedang diproses oleh sistem.', 'modalTarik');" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Nominal Penarikan (Rp)</label>
+                        <input type="number" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green text-lg font-bold text-gray-800" placeholder="0" max="25000000" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Rekening Tujuan</label>
+                        <div class="p-3 border border-gray-200 rounded-xl bg-gray-50 flex items-center space-x-3 opacity-70 cursor-not-allowed">
+                            <i class="fas fa-university text-gray-400 text-xl"></i>
+                            <div>
+                                <p class="text-sm font-bold text-gray-800">Bank Mandiri - 123456789</p>
+                                <p class="text-[10px] text-gray-500">a/n Toko Sejahtera</p>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-gray-400 mt-1 italic">*Rekening sesuai dengan data profil terverifikasi Anda.</p>
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-scrow-yellow text-green-900 font-bold rounded-xl hover:bg-yellow-400 transition shadow-lg mt-4">
+                        Kirim Permintaan Tarik Dana
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SCRIPT VANILLA JS                          -->
+    <!-- ========================================== -->
+    <script>
+        // Toggle Sidebar Mobile
+        function toggleSidebar() {
+            document.getElementById('escrowSidebar').classList.toggle('-translate-x-full');
+            document.getElementById('escrowOverlay').classList.toggle('hidden');
+        }
+
+        // Buka Modal (Universal)
+        function bukaModal(idModal) {
+            const modal = document.getElementById(idModal);
+            const content = document.getElementById(idModal + 'Content');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+        }
+
+        // Tutup Modal (Universal)
+        function tutupModal(idModal) {
+            const modal = document.getElementById(idModal);
+            const content = document.getElementById(idModal + 'Content');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Simulasi Submit Sukses
+        function notifikasiSukses(pesan, idModal) {
+            alert(pesan);
+            tutupModal(idModal);
+        }
+    </script>
+</body>
+</html>

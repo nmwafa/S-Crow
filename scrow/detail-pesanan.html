@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Pesanan - S+CROW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+        .bg-scrow-green { background-color: #15803d; }
+        .text-scrow-green { color: #15803d; }
+        .bg-scrow-yellow { background-color: #facc15; }
+        .border-scrow-green { border-color: #15803d; }
+        .sidebar-item:hover { background-color: #f1f5f9; }
+        .sidebar-item.active { border-left: 4px solid #facc15; background-color: #f8fafc; color: #15803d; }
+        
+        /* Animasi berkedip untuk penanda status saat ini */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(250, 204, 21, 0); }
+            100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(250, 204, 21, 0); }
+        }
+        .status-active-dot {
+            animation: pulse-ring 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 flex min-h-screen relative">
+
+    <!-- Sidebar -->
+    <aside class="w-20 lg:w-64 bg-white border-r border-slate-200 flex flex-col shrink-0">
+        <div class="p-6 flex items-center space-x-3">
+            <div class="w-10 h-10 bg-scrow-green rounded-xl flex items-center justify-center text-scrow-yellow">
+                <i class="fas fa-shopping-basket"></i>
+            </div>
+            <span class="text-xl font-bold tracking-tighter text-scrow-green hidden lg:block">S+CROW</span>
+        </div>
+
+        <nav class="flex-grow mt-6">
+            <a href="dashboard-buyer.html" class="sidebar-item flex items-center px-6 py-4 transition text-slate-500 hover:text-scrow-green group">
+                <i class="fas fa-home mr-4 text-xl lg:text-base"></i>
+                <span class="font-medium hidden lg:block">Beranda Dashboard</span>
+            </a>
+            <a href="#" class="sidebar-item flex items-center px-6 py-4 transition text-slate-500 hover:text-scrow-green">
+                <i class="fas fa-search mr-4 text-xl lg:text-base"></i>
+                <span class="font-medium hidden lg:block">Cari Supplier</span>
+            </a>
+            <!-- Menu Pesanan Saya aktif di halaman ini -->
+            <a href="#" class="sidebar-item active flex items-center px-6 py-4 transition">
+                <i class="fas fa-box-open mr-4 text-xl lg:text-base"></i>
+                <span class="font-bold hidden lg:block">Pesanan Saya</span>
+            </a>
+            <a href="#" class="sidebar-item flex items-center px-6 py-4 transition text-slate-500 hover:text-scrow-green">
+                <i class="fas fa-shield-alt mr-4 text-xl lg:text-base"></i>
+                <span class="font-medium hidden lg:block">Dana Escrow</span>
+            </a>
+            <a href="profile-buyer.html" class="sidebar-item flex items-center px-6 py-4 transition text-slate-500 hover:text-scrow-green">
+                <i class="fas fa-user-circle mr-4 text-xl lg:text-base"></i>
+                <span class="font-medium hidden lg:block">Profil Akun</span>
+            </a>
+            <a href="#" class="sidebar-item flex items-center px-6 py-4 transition text-slate-500 hover:text-scrow-green">
+                <i class="fas fa-history mr-4 text-xl lg:text-base"></i>
+                <span class="font-medium hidden lg:block">Riwayat Transaksi</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-4 lg:p-8 w-full overflow-hidden">
+        
+        <!-- Header / Back Button -->
+        <div class="flex items-center space-x-4 mb-8">
+            <a href="dashboard-buyer.html" class="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-500 hover:text-scrow-green transition hover:shadow-sm">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Detail Pesanan</p>
+                <h1 class="text-2xl font-extrabold text-slate-800">#ORD-9920</h1>
+            </div>
+            <span class="ml-auto px-4 py-2 bg-yellow-50 text-yellow-700 border border-yellow-200 rounded-full text-xs font-bold flex items-center shadow-sm">
+                <i class="fas fa-clock mr-2"></i> MENUNGGU KONFIRMASI PEMBELI
+            </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Kolom Kiri: Detail Pesanan & Aksi Utama (Porsi 2/3) -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Info Supplier & Barang -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                    <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-4">Rincian Barang</h2>
+                    
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">PT. Pangan Nusantara Abadi</h3>
+                            <p class="text-sm text-slate-500">Supplier Terverifikasi S+CROW <i class="fas fa-check-circle text-blue-500 text-xs ml-1"></i></p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-slate-50 p-4 rounded-2xl">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-16 h-16 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-scrow-green text-2xl">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Beras Premium Pandan Wangi</h4>
+                                <p class="text-sm text-slate-500">50 Karung (@25kg)</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm text-slate-500">Harga Total</p>
+                            <p class="font-bold text-slate-800 text-lg">Rp 17.500.000</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KOTAK AKSI / KONTROL MUTLAK BUYER -->
+                <div class="bg-white p-6 md:p-8 rounded-3xl border-2 border-scrow-green shadow-lg shadow-green-900/5 relative overflow-hidden">
+                    <!-- Hiasan latar -->
+                    <i class="fas fa-shield-check absolute -right-10 -bottom-10 text-9xl text-green-50 opacity-50"></i>
+                    
+                    <div class="relative z-10">
+                        <h2 class="text-xl font-bold text-slate-800 mb-2">Barang Sudah Sampai?</h2>
+                        <p class="text-slate-500 text-sm mb-6 leading-relaxed">
+                            Mohon periksa kuantitas dan kualitas barang Anda (Pastikan berjumlah 50 Karung). 
+                            Menekan tombol konfirmasi akan mengubah status dana dari <span class="font-bold text-slate-700">"Ditahan Escrow"</span> menjadi <span class="font-bold text-scrow-green">"Dilepaskan ke Supplier"</span>.
+                        </p>
+
+                        <!-- FORM POST DENGAN CSRF TOKEN -->
+                        <form id="action-form" method="POST" action="/api/pesanan/konfirmasi-atau-komplain">
+                            
+                            <!-- BUKTI KEAMANAN: Token CSRF (Wajib di Backend sungguhan) -->
+                            <input type="hidden" name="csrf_token" value="SCROW_CSRF_TOKEN_x8f9a2b4c6d">
+                            <input type="hidden" name="order_id" value="ORD-9920">
+
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <!-- Tombol Hijau: Konfirmasi -->
+                                <button type="button" onclick="bukaModalKonfirmasi()" class="flex-1 bg-scrow-green hover:bg-green-800 text-white font-bold py-4 px-6 rounded-2xl transition shadow-md flex items-center justify-center">
+                                    <i class="fas fa-check-circle mr-2 text-xl"></i> Konfirmasi Barang Diterima
+                                </button>
+                                
+                                <!-- Tombol Merah: Komplain -->
+                                <button type="button" onclick="bukaModalKomplain()" class="flex-1 bg-white border-2 border-red-500 text-red-600 hover:bg-red-50 font-bold py-4 px-6 rounded-2xl transition flex items-center justify-center">
+                                    <i class="fas fa-exclamation-triangle mr-2 text-xl"></i> Ajukan Komplain
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Kolom Kanan: Jejak Audit (Order & Fund Trail) -->
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm sticky top-8">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center">
+                        <i class="fas fa-route text-scrow-yellow mr-2"></i> Jejak Audit Status
+                    </h3>
+
+                    <div class="relative pl-6 border-l-2 border-slate-100 space-y-8 pb-4">
+                        
+                        <!-- Step 1: Pembayaran (Selesai) -->
+                        <div class="relative">
+                            <div class="absolute -left-[33px] w-4 h-4 bg-scrow-green rounded-full ring-4 ring-white"></div>
+                            <p class="text-xs text-slate-400 font-bold mb-1">12 Okt 2023, 08:15</p>
+                            <h4 class="text-sm font-bold text-slate-800">Menunggu Pembayaran</h4>
+                            <p class="text-xs text-slate-500 mt-1">Pembayaran invoice telah diunggah.</p>
+                        </div>
+
+                        <!-- Step 2: Dana Masuk Escrow (Selesai) -->
+                        <div class="relative">
+                            <div class="absolute -left-[33px] w-4 h-4 bg-scrow-green rounded-full ring-4 ring-white flex items-center justify-center">
+                                <i class="fas fa-shield-alt text-[8px] text-white"></i>
+                            </div>
+                            <p class="text-xs text-slate-400 font-bold mb-1">12 Okt 2023, 08:30</p>
+                            <h4 class="text-sm font-bold text-slate-800">Dana Ditahan Escrow S+CROW</h4>
+                            <p class="text-xs text-scrow-green font-medium mt-1 bg-green-50 inline-block px-2 py-1 rounded">Rp 17.500.000 diamankan.</p>
+                        </div>
+
+                        <!-- Step 3: Diproses (Selesai) -->
+                        <div class="relative">
+                            <div class="absolute -left-[33px] w-4 h-4 bg-scrow-green rounded-full ring-4 ring-white"></div>
+                            <p class="text-xs text-slate-400 font-bold mb-1">12 Okt 2023, 10:00</p>
+                            <h4 class="text-sm font-bold text-slate-800">Pesanan Diproses Supplier</h4>
+                        </div>
+
+                        <!-- Step 4: Dikirim (Selesai) -->
+                        <div class="relative">
+                            <div class="absolute -left-[33px] w-4 h-4 bg-scrow-green rounded-full ring-4 ring-white"></div>
+                            <p class="text-xs text-slate-400 font-bold mb-1">13 Okt 2023, 14:20</p>
+                            <h4 class="text-sm font-bold text-slate-800">Sedang Dikirim</h4>
+                            <p class="text-xs text-slate-500 mt-1">Resi: TRK-992011-EXP</p>
+                        </div>
+
+                        <!-- Step 5: Tiba / Menunggu Aksi (STATUS SAAT INI) -->
+                        <div class="relative">
+                            <div class="absolute -left-[35px] w-5 h-5 bg-scrow-yellow rounded-full ring-4 ring-white status-active-dot flex items-center justify-center">
+                                <div class="w-2 h-2 bg-white rounded-full"></div>
+                            </div>
+                            <h4 class="text-sm font-extrabold text-scrow-yellow uppercase tracking-wide">Menunggu Konfirmasi</h4>
+                            <p class="text-xs text-slate-500 mt-1 leading-relaxed">Kurir melaporkan barang telah tiba. Harap periksa fisik barang dan tekan konfirmasi.</p>
+                        </div>
+
+                        <!-- Step 6: Pencairan Dana (Belum Terjadi) -->
+                        <div class="relative opacity-40">
+                            <div class="absolute -left-[33px] w-4 h-4 bg-slate-200 rounded-full ring-4 ring-white"></div>
+                            <h4 class="text-sm font-bold text-slate-800">Dana Diteruskan ke Supplier</h4>
+                            <p class="text-xs text-slate-500 mt-1">Menunggu otorisasi Anda.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- MODAL KONFIRMASI PENERIMAAN (POP UP)       -->
+    <!-- ========================================== -->
+    <div id="modalKonfirmasi" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-6 lg:p-8 w-full max-w-md shadow-2xl transform scale-95 transition-transform duration-300" id="modalKonfirmasiContent">
+            
+            <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center text-scrow-green text-3xl mx-auto mb-6">
+                <i class="fas fa-check-double"></i>
+            </div>
+            
+            <h3 class="text-xl font-extrabold text-center text-slate-800 mb-2">Lepaskan Dana ke Supplier?</h3>
+            <p class="text-center text-slate-500 text-sm mb-6">
+                Anda menyatakan bahwa <b>50 Karung Beras</b> telah diterima dalam kondisi baik. Dana Escrow sebesar <b class="text-slate-800">Rp 17.500.000</b> akan diteruskan ke PT. Pangan Nusantara Abadi dan tidak dapat ditarik kembali.
+            </p>
+            
+            <div class="flex gap-3">
+                <button onclick="tutupModal('modalKonfirmasi')" class="flex-1 py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition">Batal</button>
+                <button onclick="submitForm('konfirmasi')" class="flex-1 py-3 px-4 bg-scrow-green hover:bg-green-800 text-white font-bold rounded-xl transition shadow-md">Ya, Lepaskan Dana</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL KOMPLAIN / DISPUTE (POP UP)          -->
+    <!-- ========================================== -->
+    <div id="modalKomplain" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-6 lg:p-8 w-full max-w-md shadow-2xl transform scale-95 transition-transform duration-300" id="modalKomplainContent">
+            
+            <div class="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center text-red-600 text-3xl mx-auto mb-6">
+                <i class="fas fa-hand-paper"></i>
+            </div>
+            
+            <h3 class="text-xl font-extrabold text-center text-slate-800 mb-2">Bekukan Dana & Ajukan Komplain?</h3>
+            <p class="text-center text-slate-500 text-sm mb-6">
+                Dana Escrow akan <b>tetap dibekukan</b>. Admin S+CROW akan masuk sebagai penengah. Apakah jumlah/kualitas barang tidak sesuai?
+            </p>
+
+            <textarea placeholder="Tuliskan alasan singkat (misal: Hanya datang 40 karung, kemasan rusak...)" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm mb-6 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none h-24 resize-none"></textarea>
+            
+            <div class="flex gap-3">
+                <button onclick="tutupModal('modalKomplain')" class="flex-1 py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl transition">Batal</button>
+                <button onclick="submitForm('komplain')" class="flex-1 py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition shadow-md">Kirim Komplain</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vanilla Javascript untuk Interaksi Modal -->
+    <script>
+        function bukaModalKonfirmasi() {
+            const modal = document.getElementById('modalKonfirmasi');
+            const content = document.getElementById('modalKonfirmasiContent');
+            modal.classList.remove('hidden');
+            // Sedikit delay untuk efek transisi opacity & scale Tailwind
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function bukaModalKomplain() {
+            const modal = document.getElementById('modalKomplain');
+            const content = document.getElementById('modalKomplainContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function tutupModal(id) {
+            const modal = document.getElementById(id);
+            const content = document.getElementById(id + 'Content');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            // Tunggu animasi selesai baru di-hide
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function submitForm(tipe) {
+            // Dalam implementasi nyata, ini akan men-submit form ke server backend Anda.
+            // Form sudah dilindungi tag input csrf_token di atas.
+            const form = document.getElementById('action-form');
+            
+            if(tipe === 'konfirmasi') {
+                alert("Simulasi: Form POST dikirim beserta CSRF Token.\nDana dilepaskan ke supplier.");
+                // form.submit(); // <-- Buka komen ini jika backend sudah siap
+            } else if (tipe === 'komplain') {
+                alert("Simulasi: Laporan Komplain dikirim beserta CSRF Token.\nDana Escrow DIBEKUKAN.");
+                // form.submit(); // <-- Buka komen ini jika backend sudah siap
+            }
+            
+            tutupModal('modalKonfirmasi');
+            tutupModal('modalKomplain');
+        }
+    </script>
+</body>
+</html>

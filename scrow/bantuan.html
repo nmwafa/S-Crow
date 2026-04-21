@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pusat Bantuan - S+CROW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+        .bg-scrow-green { background-color: #15803d; }
+        .text-scrow-green { color: #15803d; }
+        .bg-scrow-yellow { background-color: #facc15; }
+        .text-scrow-yellow { color: #facc15; }
+        .hero-gradient { background: linear-gradient(135deg, #15803d 0%, #166534 100%); }
+        
+        /* Transisi halus untuk buka tutup FAQ */
+        .faq-answer {
+            transition: max-height 0.4s ease-in-out;
+            max-height: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Navigation Bar (Selaras dengan Landing Page) -->
+    <nav class="fixed w-full z-50 bg-white shadow-sm border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <div class="w-10 h-10 bg-scrow-green rounded-lg flex items-center justify-center">
+                            <span class="text-scrow-yellow font-bold text-xl">S+</span>
+                        </div>
+                        <span class="text-2xl font-extrabold tracking-tighter text-scrow-green">CROW</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-scrow-green font-bold transition">Beranda</a>
+                    <!-- Mengarah kembali ke section Tentang Kami di index.html -->
+                    <a href="index.html#tentang-kami" class="text-gray-600 hover:text-scrow-green font-bold transition">Tentang Kami</a>
+                    <a href="bantuan.html" class="text-scrow-green font-bold transition border-b-2 border-scrow-green pb-1">Bantuan</a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="login.html" class="px-5 py-2 text-scrow-green font-semibold hover:bg-green-50 rounded-xl transition">Masuk</a>
+                    <a href="register.html" class="px-6 py-2 bg-scrow-yellow text-green-900 font-bold rounded-xl hover:shadow-md transition">Daftar</a>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-2xl text-scrow-green focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 shadow-xl absolute w-full left-0 flex flex-col px-6 py-4 space-y-4 transition-all duration-300">
+            <a href="index.html" class="text-gray-600 font-bold text-lg hover:text-scrow-green">Beranda</a>
+            <a href="index.html#tentang-kami" class="text-gray-600 font-bold text-lg hover:text-scrow-green">Tentang Kami</a>
+            <a href="bantuan.html" class="text-scrow-green font-bold text-lg">Bantuan</a>
+            <hr class="border-gray-100">
+            <a href="login.html" class="w-full py-3 bg-green-50 text-scrow-green font-bold rounded-xl text-center">Masuk ke Akun</a>
+            <a href="register.html" class="w-full py-3 bg-scrow-yellow text-green-900 font-bold rounded-xl text-center">Daftar Sekarang</a>
+        </div>
+    </nav>
+
+    <main class="pt-20">
+        
+        <!-- Hero & Search Section -->
+        <section class="hero-gradient py-16 lg:py-24 relative">
+            <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+                <h1 class="text-3xl lg:text-5xl font-extrabold text-white mb-6">Halo, ada yang bisa kami bantu?</h1>
+                <p class="text-green-100 mb-8">Temukan jawaban untuk semua pertanyaan Anda terkait sistem transaksi, escrow, dan keamanan akun S+CROW.</p>
+                
+                <!-- Search Bar -->
+                <div class="relative w-full max-w-2xl mx-auto">
+                    <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-xl"></i>
+                    <input type="text" id="searchInput" onkeyup="cariFAQ()" placeholder="Ketik kata kunci (contoh: tarik dana, komplain, escrow...)" class="w-full pl-14 pr-6 py-4 bg-white rounded-2xl shadow-xl outline-none focus:ring-4 focus:ring-green-500/50 text-gray-700 transition font-medium">
+                </div>
+            </div>
+            
+            <!-- Hiasan Background -->
+            <i class="fas fa-question-circle absolute -bottom-10 -left-10 text-9xl text-white opacity-5"></i>
+            <i class="fas fa-headset absolute top-10 right-10 text-9xl text-white opacity-5"></i>
+        </section>
+
+        <!-- Kategori & FAQ Section -->
+        <section class="py-16 max-w-4xl mx-auto px-4">
+            
+            <!-- Placeholder Jika Pencarian Kosong -->
+            <div id="noResult" class="hidden text-center py-12">
+                <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300 text-4xl">
+                    <i class="fas fa-search-minus"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800">Tidak ada jawaban yang cocok</h3>
+                <p class="text-gray-500 mt-2">Silakan coba gunakan kata kunci yang berbeda.</p>
+            </div>
+
+            <!-- Daftar FAQ -->
+            <div id="faqContainer">
+                
+                <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center mt-4 faq-category-title">
+                    <i class="fas fa-shield-alt text-scrow-green mr-3 text-2xl"></i> Sistem Escrow (Rekening Bersama)
+                </h2>
+                
+                <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-4 hover:border-scrow-green transition group">
+                    <button onclick="toggleFAQ(this)" class="faq-question w-full flex justify-between items-center p-6 text-left font-bold text-gray-800 group-hover:text-scrow-green focus:outline-none">
+                        <span>Bagaimana cara kerja Escrow di S+CROW?</span>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300 transform group-hover:text-scrow-green"></i>
+                    </button>
+                    <div class="faq-answer overflow-hidden">
+                        <div class="faq-answer-text p-6 pt-0 text-gray-600 leading-relaxed text-sm">
+                            Escrow adalah sistem rekening bersama yang aman. Saat Anda membeli barang, dana Anda tidak langsung masuk ke Supplier, melainkan ditahan (dibekukan) di rekening S+CROW. Dana hanya akan diteruskan ke Supplier setelah Anda menerima barang dengan aman dan menekan tombol konfirmasi.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-4 hover:border-scrow-green transition group">
+                    <button onclick="toggleFAQ(this)" class="faq-question w-full flex justify-between items-center p-6 text-left font-bold text-gray-800 group-hover:text-scrow-green focus:outline-none">
+                        <span>Apakah ada biaya layanan untuk menggunakan Escrow?</span>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300 transform group-hover:text-scrow-green"></i>
+                    </button>
+                    <div class="faq-answer overflow-hidden">
+                        <div class="faq-answer-text p-6 pt-0 text-gray-600 leading-relaxed text-sm">
+                            Ya, terdapat biaya platform sebesar persentase kecil dari total nilai transaksi (sesuai tier langganan) yang ditanggung oleh pihak Supplier saat dana dicairkan. Bagi Buyer, penggunaan Escrow adalah 100% gratis.
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center mt-10 faq-category-title">
+                    <i class="fas fa-box-open text-scrow-yellow mr-3 text-2xl"></i> Transaksi & Komplain
+                </h2>
+
+                <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-4 hover:border-scrow-green transition group">
+                    <button onclick="toggleFAQ(this)" class="faq-question w-full flex justify-between items-center p-6 text-left font-bold text-gray-800 group-hover:text-scrow-green focus:outline-none">
+                        <span>Bagaimana jika barang yang datang tidak sesuai pesanan?</span>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300 transform group-hover:text-scrow-green"></i>
+                    </button>
+                    <div class="faq-answer overflow-hidden">
+                        <div class="faq-answer-text p-6 pt-0 text-gray-600 leading-relaxed text-sm">
+                            Jika barang kurang, rusak, atau salah kirim, **JANGAN** menekan tombol konfirmasi selesai. Anda wajib menekan tombol <span class="font-bold text-red-500">"Ajukan Komplain"</span> pada halaman Detail Pesanan. Dana akan tetap ditahan oleh S+CROW, dan tim Admin kami akan masuk sebagai penengah untuk proses pengembalian dana (Refund) atau retur barang.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-4 hover:border-scrow-green transition group">
+                    <button onclick="toggleFAQ(this)" class="faq-question w-full flex justify-between items-center p-6 text-left font-bold text-gray-800 group-hover:text-scrow-green focus:outline-none">
+                        <span>Berapa lama proses pencairan dana (Withdraw) ke rekening?</span>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300 transform group-hover:text-scrow-green"></i>
+                    </button>
+                    <div class="faq-answer overflow-hidden">
+                        <div class="faq-answer-text p-6 pt-0 text-gray-600 leading-relaxed text-sm">
+                            Penarikan dana ke rekening Bank Mandiri, BCA, dan BNI diproses secara instan atau maksimal 1x24 jam kerja. Untuk bank lainnya, estimasi waktu adalah 1-2 hari kerja bank.
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center mt-10 faq-category-title">
+                    <i class="fas fa-user-shield text-blue-500 mr-3 text-2xl"></i> Akun & Verifikasi
+                </h2>
+
+                <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-4 hover:border-scrow-green transition group">
+                    <button onclick="toggleFAQ(this)" class="faq-question w-full flex justify-between items-center p-6 text-left font-bold text-gray-800 group-hover:text-scrow-green focus:outline-none">
+                        <span>Syarat apa saja untuk mendaftar sebagai Supplier?</span>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300 transform group-hover:text-scrow-green"></i>
+                    </button>
+                    <div class="faq-answer overflow-hidden">
+                        <div class="faq-answer-text p-6 pt-0 text-gray-600 leading-relaxed text-sm">
+                            Untuk menjadi Supplier terverifikasi, Anda wajib mendaftarkan NIB (Nomor Induk Berusaha), NPWP Perusahaan, KTP Direktur/Pemilik, serta menyertakan foto fisik gudang/tempat usaha. Proses verifikasi memakan waktu maksimal 2x24 jam.
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Kotak Hubungi CS -->
+            <div class="mt-16 bg-gradient-to-r from-green-900 to-green-800 rounded-3xl p-8 sm:p-12 text-center shadow-2xl relative overflow-hidden">
+                <div class="relative z-10">
+                    <h3 class="text-2xl font-bold text-white mb-4">Masih butuh bantuan?</h3>
+                    <p class="text-green-100 mb-8 max-w-lg mx-auto">Tim Customer Support kami siap membantu menyelesaikan kendala transaksi Anda setiap hari kerja (08.00 - 17.00 WIB).</p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <a href="#" class="px-8 py-4 bg-scrow-yellow text-green-900 font-bold rounded-xl shadow-lg hover:bg-yellow-400 transition flex items-center justify-center">
+                            <i class="fab fa-whatsapp mr-2 text-xl"></i> Chat WhatsApp
+                        </a>
+                        <a href="mailto:support@scrow.id" class="px-8 py-4 bg-white/10 backdrop-blur border border-white/20 text-white font-bold rounded-xl hover:bg-white/20 transition flex items-center justify-center">
+                            <i class="fas fa-envelope mr-2 text-xl"></i> Email Support
+                        </a>
+                    </div>
+                </div>
+                <!-- Hiasan Card -->
+                <i class="fas fa-comments absolute -bottom-10 -right-10 text-9xl text-white/5"></i>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center space-x-2 mb-4">
+                <div class="w-8 h-8 bg-scrow-green rounded-lg flex items-center justify-center">
+                    <span class="text-scrow-yellow font-bold text-sm">S+</span>
+                </div>
+                <span class="text-xl font-extrabold tracking-tighter text-scrow-green">CROW</span>
+            </div>
+            <p class="text-gray-400 text-sm">&copy; 2026 S+CROW Indonesia. Ekosistem B2B Terpercaya.</p>
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT UNTUK DROPDOWN & PENCARIAN      -->
+    <!-- ========================================== -->
+    <script>
+        // --- 1. Fungsi Mobile Menu ---
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        btn.addEventListener('click', () => { menu.classList.toggle('hidden'); });
+
+        // --- 2. Fungsi Accordion (Buka Tutup FAQ) ---
+        function toggleFAQ(button) {
+            const answer = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            // Logika untuk buka/tutup menggunakan maxHeight
+            if (answer.style.maxHeight && answer.style.maxHeight !== '0px') {
+                // Jika sedang terbuka, maka tutup
+                answer.style.maxHeight = '0px';
+                icon.classList.remove('rotate-180');
+                button.classList.remove('text-scrow-green');
+            } else {
+                // Opsional: Tutup semua FAQ lain saat satu FAQ dibuka
+                const allAnswers = document.querySelectorAll('.faq-answer');
+                const allIcons = document.querySelectorAll('.faq-question i');
+                const allButtons = document.querySelectorAll('.faq-question');
+                
+                allAnswers.forEach(ans => ans.style.maxHeight = '0px');
+                allIcons.forEach(ic => ic.classList.remove('rotate-180'));
+                allButtons.forEach(btn => btn.classList.remove('text-scrow-green'));
+
+                // Buka FAQ yang diklik berdasarkan scrollHeight (tinggi konten asli)
+                answer.style.maxHeight = answer.scrollHeight + "px";
+                icon.classList.add('rotate-180');
+                button.classList.add('text-scrow-green');
+            }
+        }
+
+        // --- 3. Fungsi Pencarian Live ---
+        function cariFAQ() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+            const categories = document.querySelectorAll('.faq-category-title');
+            let adaHasil = false;
+
+            // Proses pencarian di setiap item
+            faqItems.forEach(item => {
+                const pertanyaan = item.querySelector('.faq-question span').innerText.toLowerCase();
+                const jawaban = item.querySelector('.faq-answer-text').innerText.toLowerCase();
+                
+                if (pertanyaan.includes(input) || jawaban.includes(input)) {
+                    item.style.display = 'block';
+                    adaHasil = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Menyembunyikan judul kategori jika ada yang diketik untuk tampilan yang lebih bersih
+            categories.forEach(cat => {
+                if(input.length > 0) {
+                    cat.style.display = 'none';
+                } else {
+                    cat.style.display = 'flex'; // kembalikan ke default
+                }
+            });
+
+            // Tampilkan pesan "Tidak ditemukan" jika pencarian tidak cocok
+            const noResultDiv = document.getElementById('noResult');
+            if (adaHasil) {
+                noResultDiv.classList.add('hidden');
+            } else {
+                noResultDiv.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
