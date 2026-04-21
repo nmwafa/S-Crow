@@ -13,9 +13,16 @@
         .text-scrow-green { color: #15803d; }
         .bg-scrow-yellow { background-color: #facc15; }
         .text-scrow-yellow { color: #facc15; }
+        
+        /* Animasi Transisi Halaman */
         .sub-page { display: none; }
         .sub-page.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Kustomisasi scrollbar untuk modal */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen">
@@ -25,102 +32,181 @@
             <div class="w-8 h-8 bg-scrow-green rounded flex items-center justify-center">
                 <span class="text-scrow-yellow font-bold text-sm">S+</span>
             </div>
-            <span class="text-xl font-bold tracking-tighter text-scrow-green">CROW</span>
+            <span class="text-xl font-extrabold tracking-tighter text-scrow-green">CROW</span>
         </a>
     </nav>
 
-    <main class="flex-grow flex items-center justify-center px-4 py-12">
+    <main class="flex-grow flex items-center justify-center px-4 py-8 lg:py-12">
         
         <!-- Selection Step -->
         <div id="selection" class="sub-page active w-full max-w-4xl text-center">
-            <h1 class="text-3xl font-bold mb-2">Mari Bergabung</h1>
-            <p class="text-gray-500 mb-12">Pilih peran Anda untuk memulai perjalanan bisnis</p>
+            <h1 class="text-3xl font-extrabold mb-2 text-gray-900">Mari Bergabung</h1>
+            <p class="text-gray-500 mb-12">Pilih peran Anda untuk memulai perjalanan bisnis bersama S+CROW</p>
             <div class="grid md:grid-cols-2 gap-8">
-                <button onclick="showRegister('supplier')" class="bg-scrow-green p-10 rounded-3xl shadow-lg border-2 border-transparent hover:scale-[1.02] transition text-left text-white">
-                    <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-scrow-yellow text-3xl mb-6">
+                <button onclick="showRegister('supplier')" class="bg-scrow-green p-8 md:p-10 rounded-3xl shadow-lg border-2 border-transparent hover:scale-[1.02] transition text-left text-white group">
+                    <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-scrow-yellow text-3xl mb-6 group-hover:bg-scrow-yellow group-hover:text-green-900 transition duration-300">
                         <i class="fas fa-truck-moving"></i>
                     </div>
                     <h3 class="text-2xl font-bold mb-2">Daftar Supplier</h3>
-                    <p class="text-green-100">Pasarkan produk Anda ke ribuan buyer dengan sistem pembayaran aman.</p>
+                    <p class="text-green-100 text-sm md:text-base leading-relaxed">Pasarkan produk bahan baku Anda ke ribuan buyer UMKM dengan jaminan sistem pembayaran Escrow yang aman.</p>
                 </button>
-                <button onclick="showRegister('buyer')" class="bg-white p-10 rounded-3xl shadow-sm border-2 border-transparent hover:border-scrow-yellow hover:scale-[1.02] transition text-left">
-                    <div class="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center text-scrow-yellow text-3xl mb-6">
+                
+                <button onclick="showRegister('buyer')" class="bg-white p-8 md:p-10 rounded-3xl shadow-sm border-2 border-gray-100 hover:border-scrow-yellow hover:scale-[1.02] transition text-left group">
+                    <div class="w-16 h-16 bg-yellow-50 rounded-2xl flex items-center justify-center text-scrow-yellow text-3xl mb-6 group-hover:bg-scrow-yellow group-hover:text-green-900 transition duration-300">
                         <i class="fas fa-store"></i>
                     </div>
                     <h3 class="text-2xl font-bold mb-2 text-green-900">Daftar Buyer</h3>
-                    <p class="text-gray-500">Dapatkan akses ke supplier tangan pertama dengan harga kompetitif.</p>
+                    <p class="text-gray-500 text-sm md:text-base leading-relaxed">Dapatkan akses langsung ke supplier tangan pertama dengan harga yang lebih kompetitif untuk bisnis Anda.</p>
                 </button>
             </div>
             <div class="mt-12">
-                <p class="text-gray-500">Sudah punya akun? <a href="login.html" class="text-scrow-green font-bold">Masuk di sini</a></p>
+                <p class="text-gray-500">Sudah punya akun? <a href="login.html" class="text-scrow-green font-bold hover:underline">Masuk di sini</a></p>
             </div>
         </div>
 
         <!-- Supplier Register Form -->
         <div id="supplier-form" class="sub-page w-full max-w-2xl">
-            <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100">
-                <button onclick="showSelection()" class="text-gray-400 hover:text-gray-600 mb-6 flex items-center text-sm">
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-gray-100 relative">
+                <button onclick="showSelection()" class="text-gray-400 hover:text-gray-600 mb-6 flex items-center text-sm font-bold transition">
                     <i class="fas fa-arrow-left mr-2"></i> Kembali
                 </button>
-                <h2 class="text-2xl font-bold mb-8">Pendaftaran Akun Supplier</h2>
-                <form onsubmit="event.preventDefault(); alert('Pendaftaran Supplier Berhasil!')" class="space-y-6">
+                <div class="flex items-center space-x-3 mb-8">
+                    <div class="w-12 h-12 bg-green-50 text-scrow-green rounded-xl flex items-center justify-center text-xl shrink-0"><i class="fas fa-truck-moving"></i></div>
+                    <h2 class="text-xl md:text-2xl font-extrabold text-gray-900">Pendaftaran Akun Supplier</h2>
+                </div>
+                
+                <!-- Form Supplier -->
+                <form onsubmit="event.preventDefault(); window.location.href='dashboard-supplier.html'" class="space-y-6">
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Nama Perusahaan</label>
-                            <input type="text" class="w-full px-4 py-3 rounded-xl border outline-none focus:border-scrow-green" placeholder="PT Maju Terus" required>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Nama Lengkap Pemilik</label>
+                            <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green focus:ring-4 focus:ring-green-50 transition" placeholder="Sesuai KTP" required>
                         </div>
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Nomor NIB</label>
-                            <input type="text" class="w-full px-4 py-3 rounded-xl border outline-none focus:border-scrow-green" placeholder="13 Digit NIB" required>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Nama Usaha / Toko</label>
+                            <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green focus:ring-4 focus:ring-green-50 transition" placeholder="Contoh: Grosir Makmur" required>
                         </div>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">Email Bisnis</label>
-                        <input type="email" class="w-full px-4 py-3 rounded-xl border outline-none focus:border-scrow-green" placeholder="sales@perusahaan.com" required>
+                        <input type="email" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green focus:ring-4 focus:ring-green-50 transition" placeholder="sales@usahaanda.com" required>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">Password</label>
-                        <input type="password" class="w-full px-4 py-3 rounded-xl border outline-none focus:border-scrow-green" placeholder="Min. 8 karakter" required>
+                        <input type="password" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green focus:ring-4 focus:ring-green-50 transition" placeholder="Minimal 8 karakter" required>
                     </div>
-                    <button type="submit" class="w-full py-4 bg-scrow-green text-white font-bold rounded-xl shadow-lg">Daftar Sebagai Supplier</button>
+
+                    <!-- Checkbox Syarat & Ketentuan -->
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 mt-4">
+                        <label class="flex items-start space-x-3 cursor-pointer">
+                            <input type="checkbox" id="tnc-checkbox" onchange="toggleSubmitSupplier()" class="mt-1 w-5 h-5 rounded border-gray-300 text-scrow-green focus:ring-scrow-green disabled:opacity-50" disabled>
+                            <span class="text-sm text-gray-600 leading-relaxed">Saya telah membaca, memahami, dan menyetujui seluruh <button type="button" onclick="bukaModalTNC()" class="text-scrow-green font-bold hover:underline">Syarat dan Ketentuan</button> yang berlaku di platform S+CROW.</span>
+                        </label>
+                    </div>
+
+                    <!-- Tombol Register (Disabled secara default) -->
+                    <button type="submit" id="btn-submit-supplier" class="w-full py-4 bg-gray-300 text-gray-500 font-extrabold rounded-xl transition duration-300 cursor-not-allowed shadow-none" disabled>
+                        Daftar Sebagai Supplier
+                    </button>
                 </form>
             </div>
         </div>
 
-        <!-- Buyer Register Form -->
+        <!-- Buyer Register Form (Tidak diubah rulesnya, hanya visual) -->
         <div id="buyer-form" class="sub-page w-full max-w-2xl">
-            <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100">
-                <button onclick="showSelection()" class="text-gray-400 hover:text-gray-600 mb-6 flex items-center text-sm">
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-gray-100">
+                <button onclick="showSelection()" class="text-gray-400 hover:text-gray-600 mb-6 flex items-center text-sm font-bold transition">
                     <i class="fas fa-arrow-left mr-2"></i> Kembali
                 </button>
-                <h2 class="text-2xl font-bold mb-8 text-green-900">Pendaftaran Akun Buyer</h2>
-                <form onsubmit="event.preventDefault(); alert('Pendaftaran Buyer Berhasil!')" class="space-y-6">
+                <div class="flex items-center space-x-3 mb-8">
+                    <div class="w-12 h-12 bg-yellow-50 text-scrow-yellow rounded-xl flex items-center justify-center text-xl shrink-0"><i class="fas fa-store"></i></div>
+                    <h2 class="text-xl md:text-2xl font-extrabold text-gray-900">Pendaftaran Akun Buyer</h2>
+                </div>
+                
+                <form onsubmit="event.preventDefault(); window.location.href='dashboard-buyer.html'" class="space-y-6">
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">Nama Lengkap</label>
-                        <input type="text" class="w-full px-4 py-3 rounded-xl border outline-none focus:border-scrow-yellow" placeholder="John Doe" required>
+                        <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-yellow focus:ring-4 focus:ring-yellow-50 transition" placeholder="John Doe" required>
                     </div>
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">Nomor WhatsApp</label>
-                            <input type="tel" class="w-full px-4 py-3 rounded-xl border outline-none focus:border-scrow-yellow" placeholder="0812xxxx" required>
+                            <input type="tel" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-yellow focus:ring-4 focus:ring-yellow-50 transition" placeholder="0812xxxx" required>
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">Email</label>
-                            <input type="email" class="w-full px-4 py-3 rounded-xl border outline-none focus:border-scrow-yellow" placeholder="johndoe@email.com" required>
+                            <input type="email" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-yellow focus:ring-4 focus:ring-yellow-50 transition" placeholder="johndoe@email.com" required>
                         </div>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-2">Password</label>
-                        <input type="password" class="w-full px-4 py-3 rounded-xl border outline-none focus:border-scrow-yellow" placeholder="Min. 8 karakter" required>
+                        <input type="password" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-yellow focus:ring-4 focus:ring-yellow-50 transition" placeholder="Min. 8 karakter" required>
                     </div>
-                    <button type="submit" class="w-full py-4 bg-scrow-yellow text-green-900 font-bold rounded-xl shadow-lg">Daftar Sebagai Buyer</button>
+                    <button type="submit" class="w-full py-4 bg-scrow-yellow text-green-900 font-extrabold rounded-xl shadow-lg hover:bg-yellow-400 transition">Daftar Sebagai Buyer</button>
                 </form>
             </div>
         </div>
 
     </main>
 
+
+    <!-- ========================================== -->
+    <!-- MODAL SYARAT DAN KETENTUAN                 -->
+    <!-- ========================================== -->
+    <div id="modalTNC" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[85vh]" id="modalTNCContent">
+            
+            <!-- Header Modal -->
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50 shrink-0">
+                <h3 class="text-lg sm:text-xl font-bold text-gray-800 flex items-center">
+                    <i class="fas fa-file-contract text-scrow-green mr-3"></i> Syarat & Ketentuan S+CROW
+                </h3>
+                <button type="button" onclick="tutupModalTNC()" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-200 hover:text-red-500 transition focus:outline-none">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            
+            <!-- Konten (Wajib Scroll) -->
+            <div id="tnc-scroll-area" onscroll="cekScrollTNC()" class="p-6 overflow-y-auto custom-scrollbar text-sm text-gray-600 space-y-4 leading-relaxed bg-white">
+                <p class="font-bold text-gray-800 text-base">Penting: Mohon baca dengan saksama sebelum mendaftar sebagai Supplier.</p>
+                <p>Selamat datang di S+CROW. Dengan mendaftar dan menggunakan platform kami, Anda menyetujui perjanjian berikut ini yang mengikat secara hukum antara Anda ("Supplier") dan S+CROW ("Platform").</p>
+                
+                <h4 class="font-bold text-gray-800 mt-4">1. Penggunaan Layanan Escrow</h4>
+                <p>Seluruh transaksi pembayaran yang terjadi melalui S+CROW wajib menggunakan sistem Rekening Bersama (Escrow) yang telah disediakan. Kami melarang keras adanya transaksi di luar platform yang mengatasnamakan S+CROW.</p>
+
+                <h4 class="font-bold text-gray-800 mt-4">2. Kewajiban Pengiriman & Kualitas Barang</h4>
+                <p>Sebagai Supplier, Anda wajib memastikan bahwa barang yang dikirimkan sesuai dengan deskripsi, gambar, dan kuantitas yang dipesan oleh Buyer. Segala bentuk penipuan atau pengurangan timbangan akan diproses secara hukum, dan akun Anda akan dibekukan secara permanen.</p>
+
+                <h4 class="font-bold text-gray-800 mt-4">3. Pencairan Dana (Withdrawal)</h4>
+                <p>Dana transaksi baru akan dikreditkan ke "Saldo Escrow" Anda HANYA SETELAH Buyer menekan tombol konfirmasi penerimaan barang. Kami berhak menahan dana jika terdapat komplain atau sengketa transaksi yang sedang dimediasi oleh tim Admin S+CROW.</p>
+
+                <h4 class="font-bold text-gray-800 mt-4">4. Biaya Platform & Komisi</h4>
+                <p>S+CROW berhak memotong biaya layanan dan administrasi secara otomatis dari total dana penjualan sebelum dikreditkan ke saldo Anda. Rincian persentase potongan telah dijelaskan pada halaman skema biaya platform.</p>
+
+                <!-- Paragraf tambahan untuk memicu scroll yang lebih panjang -->
+                <p class="text-transparent select-none mt-10">... Scroll spacer ... <br><br><br><br><br><br><br><br><br><br> Akhir dari halaman Syarat dan Ketentuan.</p>
+                
+                <p class="font-bold text-center text-gray-800 pt-8 border-t border-gray-100">Akhir dari Dokumen Perjanjian.</p>
+            </div>
+            
+            <!-- Footer Modal (Tombol Setuju) -->
+            <div class="p-6 border-t border-gray-100 bg-gray-50 shrink-0">
+                <p class="text-[10px] sm:text-xs text-gray-500 mb-3 text-center font-bold" id="tnc-hint">
+                    <i class="fas fa-arrow-down animate-bounce mr-1 text-scrow-yellow"></i> Scroll hingga akhir untuk menyetujui
+                </p>
+                <button type="button" id="btn-setuju-tnc" onclick="setujuTNC()" class="w-full py-4 bg-gray-300 text-gray-500 font-extrabold rounded-xl cursor-not-allowed transition duration-300" disabled>
+                    Saya Telah Membaca & Menyetujui
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SCRIPT VANILLA JAVASCRIPT                  -->
+    <!-- ========================================== -->
     <script>
+        // --- 1. Fungsi Navigasi antar Peran ---
         function showRegister(role) {
             document.getElementById('selection').classList.remove('active');
             if(role === 'supplier') {
@@ -132,6 +218,78 @@
         function showSelection() {
             document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
             document.getElementById('selection').classList.add('active');
+        }
+
+        // --- 2. Fungsi Modal Syarat & Ketentuan ---
+        function bukaModalTNC() {
+            const modal = document.getElementById('modalTNC');
+            const content = document.getElementById('modalTNCContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+
+            // Cek apabila layar tinggi dan konten tidak memiliki scrollbar
+            setTimeout(cekScrollTNC, 200);
+        }
+
+        function tutupModalTNC() {
+            const modal = document.getElementById('modalTNC');
+            const content = document.getElementById('modalTNCContent');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // --- 3. Logika Scroll TNC ---
+        function cekScrollTNC() {
+            const area = document.getElementById('tnc-scroll-area');
+            const btn = document.getElementById('btn-setuju-tnc');
+            const hint = document.getElementById('tnc-hint');
+            
+            // Logika: Jika scroll position + tinggi layar container >= tinggi total konten (-5px toleransi pixel)
+            if (area.scrollTop + area.clientHeight >= area.scrollHeight - 5) {
+                // Aktifkan Tombol "Saya Setuju"
+                btn.disabled = false;
+                btn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                btn.classList.add('bg-scrow-green', 'text-white', 'hover:bg-green-800', 'shadow-lg');
+                
+                // Ubah teks hint
+                hint.innerHTML = '<i class="fas fa-check-circle text-scrow-green mr-1"></i> Terima kasih telah membaca.';
+            }
+        }
+
+        // --- 4. Fungsi Setuju & Centang Otomatis ---
+        function setujuTNC() {
+            tutupModalTNC(); // Tutup modal
+            
+            const checkbox = document.getElementById('tnc-checkbox');
+            checkbox.disabled = false; // Buka kunci checkbox
+            checkbox.checked = true;   // Centang otomatis
+            
+            // Panggil fungsi toggle untuk mengaktifkan tombol pendaftaran
+            toggleSubmitSupplier();
+        }
+
+        // --- 5. Fungsi Validasi Tombol Daftar Supplier ---
+        function toggleSubmitSupplier() {
+            const cb = document.getElementById('tnc-checkbox');
+            const btn = document.getElementById('btn-submit-supplier');
+            
+            if (cb.checked) {
+                // Aktifkan Tombol Register
+                btn.disabled = false;
+                btn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed', 'shadow-none');
+                btn.classList.add('bg-scrow-green', 'text-white', 'shadow-lg', 'hover:bg-green-800');
+            } else {
+                // Matikan Tombol Register
+                btn.disabled = true;
+                btn.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed', 'shadow-none');
+                btn.classList.remove('bg-scrow-green', 'text-white', 'shadow-lg', 'hover:bg-green-800');
+            }
         }
     </script>
 </body>
