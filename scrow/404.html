@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Halaman Tidak Ditemukan - S+CROW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+        .text-scrow-green { color: #15803d; }
+        .bg-scrow-green { background-color: #15803d; }
+        .text-scrow-yellow { color: #facc15; }
+        .bg-scrow-yellow { background-color: #facc15; }
+        
+        /* Animasi mengambang untuk elemen grafis */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen text-gray-800">
+
+    <!-- Header Sederhana -->
+    <nav class="p-6 absolute top-0 w-full flex justify-center md:justify-start">
+        <a href="index.html" class="flex items-center space-x-2">
+            <div class="w-10 h-10 bg-scrow-green rounded-lg flex items-center justify-center shadow-md">
+                <span class="text-scrow-yellow font-bold text-xl">S+</span>
+            </div>
+            <span class="text-2xl font-extrabold tracking-tighter text-scrow-green">CROW</span>
+        </a>
+    </nav>
+
+    <!-- Konten Utama 404 -->
+    <main class="flex-grow flex items-center justify-center px-4 pt-20 pb-12">
+        <div class="max-w-2xl w-full text-center">
+            
+            <!-- Elemen Visual 404 -->
+            <div class="relative w-64 h-64 mx-auto mb-8 floating">
+                <!-- Box Hilang -->
+                <div class="absolute inset-0 flex items-center justify-center text-gray-200">
+                    <i class="fas fa-box-open text-[150px]"></i>
+                </div>
+                <!-- Ikon Pencarian -->
+                <div class="absolute bottom-4 right-8 w-16 h-16 bg-scrow-yellow rounded-full border-4 border-white flex items-center justify-center shadow-lg text-green-900 text-2xl">
+                    <i class="fas fa-search"></i>
+                </div>
+                <!-- Tanda Tanya -->
+                <div class="absolute top-4 left-10 w-12 h-12 bg-scrow-green rounded-full border-4 border-white flex items-center justify-center shadow-lg text-white text-xl font-bold">
+                    ?
+                </div>
+            </div>
+
+            <!-- Teks Kesalahan -->
+            <h1 class="text-7xl font-extrabold text-scrow-green mb-4 tracking-tighter">404</h1>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Ups! Halaman Tidak Ditemukan.</h2>
+            <p class="text-gray-500 mb-10 max-w-md mx-auto leading-relaxed">
+                Sepertinya halaman yang Anda cari telah dipindahkan, dihapus, atau mungkin Anda salah memasukkan URL. Mari kembali ke jalan yang benar.
+            </p>
+
+            <!-- Tombol Navigasi -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="index.html" class="w-full sm:w-auto px-8 py-4 bg-scrow-yellow text-green-900 font-bold rounded-xl hover:shadow-lg transition transform hover:-translate-y-1 text-center flex items-center justify-center">
+                    <i class="fas fa-home mr-2"></i> Kembali ke Beranda
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer Sederhana -->
+    <footer class="py-2 text-center text-sm text-gray-400">
+        <p>Butuh bantuan? <a href="#" class="text-scrow-green font-bold hover:underline">Hubungi Tim Support S+CROW</a></p>
+    </footer>
+
+</body>
+</html>
