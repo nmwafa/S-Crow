@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Pengguna - S+CROW Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+        .bg-scrow-green { background-color: #15803d; }
+        .text-scrow-green { color: #15803d; }
+        .bg-scrow-yellow { background-color: #facc15; }
+        .text-scrow-yellow { color: #facc15; }
+        .sidebar-item:hover { background-color: rgba(255, 255, 255, 0.05); border-left-color: #facc15; }
+        .sidebar-item.active { background-color: rgba(255, 255, 255, 0.1); border-left-color: #facc15; color: #facc15; font-weight: bold; }
+        
+        /* Kustomisasi scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-gray-100 flex min-h-screen relative overflow-hidden">
+
+    <!-- Latar Gelap (Overlay) untuk Mobile -->
+    <div id="adminOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"></div>
+
+    <!-- Admin Sidebar (Off-canvas di Mobile) -->
+    <aside id="adminSidebar" class="w-64 bg-slate-900 text-gray-300 flex flex-col fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 z-50 shrink-0 shadow-2xl md:shadow-none">
+        <div class="p-6 bg-slate-950 flex items-center justify-between border-b border-white/5">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-scrow-yellow rounded-xl flex items-center justify-center text-slate-900">
+                    <i class="fas fa-shield-alt text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tighter text-white">S+CROW</span>
+                    <p class="text-[10px] text-scrow-yellow uppercase tracking-widest font-bold">Admin Portal</p>
+                </div>
+            </div>
+            <button onclick="toggleSidebar()" class="md:hidden text-gray-400 hover:text-white"><i class="fas fa-times text-xl"></i></button>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-grow py-6 space-y-1 overflow-y-auto custom-scrollbar">
+            <a href="dashboard-admin.html" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-chart-pie w-6"></i><span>Ringkasan</span>
+            </a>
+            <a href="pantau-transaksi.html" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-exchange-alt w-6"></i><span>Pantau Transaksi</span>
+            </a>
+            <a href="manajemen-escrow.html" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-wallet w-6"></i><span>Manajemen Escrow</span>
+            </a>
+            <!-- Menu Verifikasi Pengguna Aktif -->
+            <a href="verifikasi-pengguna.html" class="sidebar-item active flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-users-cog w-6"></i><span>Verifikasi Pengguna</span>
+                <span class="ml-auto bg-orange-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">3</span>
+            </a>
+            <a href="laporan-keuangan.html" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-file-invoice w-6"></i><span>Laporan Keuangan</span>
+            </a>
+            <a href="#" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-cog w-6"></i><span>Pengaturan Sistem</span>
+            </a>
+        </nav>
+
+        <div class="p-6 border-t border-white/10 bg-slate-950">
+            <a href="index.html" class="flex items-center text-gray-400 hover:text-white transition">
+                <i class="fas fa-sign-out-alt w-6"></i> <span>Keluar Panel</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col h-screen overflow-y-auto w-full custom-scrollbar">
+        
+        <!-- Top Header -->
+        <header class="bg-white h-20 shadow-sm flex items-center justify-between px-4 md:px-8 sticky top-0 z-30 shrink-0">
+            <div class="flex items-center">
+                <button onclick="toggleSidebar()" class="md:hidden mr-4 text-slate-600 focus:outline-none"><i class="fas fa-bars text-xl"></i></button>
+                <h2 class="text-lg md:text-xl font-extrabold text-slate-800">Pusat Kendali</h2>
+            </div>
+            
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <button class="relative text-gray-400 hover:text-scrow-green transition group">
+                    <i class="fas fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                    </span>
+                </button>
+                <div class="h-8 w-[1px] bg-gray-200"></div>
+                <div class="flex items-center space-x-3 cursor-pointer">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-sm font-bold text-slate-800">Admin Verifikator</p>
+                        <p class="text-[10px] text-scrow-green font-bold uppercase">S+CROW HQ</p>
+                    </div>
+                    <div class="w-10 h-10 bg-slate-900 rounded-full flex items-center justify-center text-scrow-yellow border-2 border-scrow-yellow shrink-0">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="p-4 md:p-8 space-y-6">
+            
+            <!-- Page Heading -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4">
+                <div>
+                    <h1 class="text-2xl font-extrabold text-slate-800">Verifikasi Pengguna (KYC)</h1>
+                    <p class="text-sm text-gray-500">Cek silang dokumen KTP dan NIB Supplier untuk meminimalisir kesalahan/penipuan.</p>
+                </div>
+            </div>
+
+            <!-- SUMMARY CARDS -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-orange-100 flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Menunggu Review</p>
+                        <h3 class="text-2xl font-extrabold text-orange-500">3 <span class="text-sm font-medium text-gray-500">Antrean</span></h3>
+                    </div>
+                    <div class="w-12 h-12 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center text-xl"><i class="fas fa-clock"></i></div>
+                </div>
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Disetujui Bulan Ini</p>
+                        <h3 class="text-2xl font-extrabold text-scrow-green">42 <span class="text-sm font-medium text-gray-500">Supplier</span></h3>
+                    </div>
+                    <div class="w-12 h-12 bg-green-50 text-scrow-green rounded-full flex items-center justify-center text-xl"><i class="fas fa-check-circle"></i></div>
+                </div>
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">Ditolak / Revisi</p>
+                        <h3 class="text-2xl font-extrabold text-red-500">5 <span class="text-sm font-medium text-gray-500">Supplier</span></h3>
+                    </div>
+                    <div class="w-12 h-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center text-xl"><i class="fas fa-times-circle"></i></div>
+                </div>
+            </div>
+
+            <!-- TABLE BOX -->
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex flex-col">
+                
+                <div class="p-4 md:p-6 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <!-- Tab Menu -->
+                    <div class="flex space-x-4 border-b border-gray-200 w-full md:w-auto">
+                        <button class="pb-2 text-sm font-bold text-scrow-green border-b-2 border-scrow-green">Perlu Tindakan (3)</button>
+                        <button class="pb-2 text-sm font-bold text-gray-400 hover:text-gray-700 transition">Riwayat Verifikasi</button>
+                    </div>
+                    
+                    <div class="relative w-full sm:w-64">
+                        <input type="text" placeholder="Cari NIK / Nama..." class="w-full text-sm border border-gray-200 rounded-lg pl-8 pr-3 py-2 outline-none focus:border-scrow-green">
+                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                    </div>
+                </div>
+                
+                <!-- Table (Responsive Scroll) -->
+                <div class="overflow-x-auto w-full custom-scrollbar">
+                    <table class="w-full text-left whitespace-nowrap min-w-[900px]">
+                        <thead class="bg-gray-50 text-gray-500 text-[10px] uppercase font-bold tracking-wider">
+                            <tr>
+                                <th class="px-6 py-4">Waktu Daftar</th>
+                                <th class="px-6 py-4">Data Pemilik (KTP)</th>
+                                <th class="px-6 py-4">Data Perusahaan (NIB)</th>
+                                <th class="px-6 py-4">Status Dokumen</th>
+                                <th class="px-6 py-4 text-center">Aksi Verifikasi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50 text-sm">
+                            
+                            <!-- Antrean 1 -->
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-4">
+                                    <p class="font-bold text-slate-800">14 Okt 2023</p>
+                                    <p class="text-[10px] text-gray-400">09:15 WIB</p>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <p class="font-bold text-slate-800">Ahmad Subagyo</p>
+                                    <p class="text-xs text-gray-500 font-mono">NIK: 3306123456789012</p>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <p class="font-bold text-slate-800">CV Pangan Maju Jaya</p>
+                                    <p class="text-xs text-gray-500">Retail / Grosir Pangan</p>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex space-x-1">
+                                        <span class="w-6 h-6 bg-green-100 text-green-600 rounded flex items-center justify-center text-[10px]" title="KTP Diunggah"><i class="fas fa-id-card"></i></span>
+                                        <span class="w-6 h-6 bg-green-100 text-green-600 rounded flex items-center justify-center text-[10px]" title="NIB Diunggah"><i class="fas fa-file-contract"></i></span>
+                                        <span class="w-6 h-6 bg-gray-100 text-gray-400 rounded flex items-center justify-center text-[10px]" title="NPWP Belum"><i class="fas fa-file-invoice-dollar"></i></span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <button onclick="bukaModalReview('Ahmad Subagyo', '3306123456789012', 'CV Pangan Maju Jaya')" class="bg-orange-500 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-orange-600 transition shadow-md">
+                                        Review Data <i class="fas fa-arrow-right ml-1"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Antrean 2 -->
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-4">
+                                    <p class="font-bold text-slate-800">14 Okt 2023</p>
+                                    <p class="text-[10px] text-gray-400">10:40 WIB</p>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <p class="font-bold text-slate-800">Siti Aminah</p>
+                                    <p class="text-xs text-gray-500 font-mono">NIK: 3174987654321098</p>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <p class="font-bold text-slate-800">Toko Sembako Barokah</p>
+                                    <p class="text-xs text-gray-500">Hasil Bumi</p>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex space-x-1">
+                                        <span class="w-6 h-6 bg-green-100 text-green-600 rounded flex items-center justify-center text-[10px]"><i class="fas fa-id-card"></i></span>
+                                        <span class="w-6 h-6 bg-gray-100 text-gray-400 rounded flex items-center justify-center text-[10px]"><i class="fas fa-file-contract"></i></span>
+                                        <span class="w-6 h-6 bg-gray-100 text-gray-400 rounded flex items-center justify-center text-[10px]"><i class="fas fa-file-invoice-dollar"></i></span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <button onclick="bukaModalReview('Siti Aminah', '3174987654321098', 'Toko Sembako Barokah')" class="bg-orange-500 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-orange-600 transition shadow-md">
+                                        Review Data <i class="fas fa-arrow-right ml-1"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ========================================================================= -->
+    <!-- MODAL REVIEW DATA & DOKUMEN SUPPLIER                                      -->
+    <!-- ========================================================================= -->
+    <div id="modalReview" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-5xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[95vh] my-4" id="modalReviewContent">
+            
+            <!-- Header Modal -->
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 shrink-0">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800"><i class="fas fa-search text-orange-500 mr-2"></i> Cek Silang Dokumen Verifikasi</h3>
+                    <p class="text-xs text-gray-500">Pastikan data teks yang diinput sama dengan foto KTP asli.</p>
+                </div>
+                <button onclick="tutupModal('modalReview')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-200 hover:text-red-500 transition focus:outline-none">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            
+            <!-- Isi Modal (Scrollable) -->
+            <div class="p-6 overflow-y-auto custom-scrollbar flex-grow">
+                <div class="grid lg:grid-cols-2 gap-8">
+                    
+                    <!-- Kolom Kiri: FOTO DOKUMEN ASLI -->
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-sm text-gray-800 border-b border-gray-100 pb-2">Dokumen Terlampir</h4>
+                        
+                        <!-- Foto KTP -->
+                        <div class="bg-gray-100 p-2 rounded-2xl border border-gray-200">
+                            <p class="text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-widest px-2 pt-1">Foto KTP / Identitas</p>
+                            <!-- Gambar Dummy KTP -->
+                            <div class="w-full h-48 bg-gray-300 rounded-xl overflow-hidden relative flex items-center justify-center">
+                                <i class="fas fa-id-card text-5xl text-gray-400 absolute opacity-50"></i>
+                                <img src="https://images.unsplash.com/photo-1621974199998-95804561a357?auto=format&fit=crop&q=80&w=600" alt="KTP Blur Dummy" class="w-full h-full object-cover opacity-80 blur-[1px]">
+                                <span class="absolute bottom-2 right-2 bg-black/50 text-white text-[10px] px-2 py-1 rounded">Preview Dokumen KTP</span>
+                            </div>
+                        </div>
+
+                        <!-- Foto NIB (Opsional ditampilkan) -->
+                        <div class="bg-gray-100 p-2 rounded-2xl border border-gray-200">
+                            <p class="text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-widest px-2 pt-1">Dokumen NIB (Bisnis)</p>
+                            <div class="w-full h-32 bg-gray-300 rounded-xl overflow-hidden relative flex items-center justify-center">
+                                <i class="fas fa-file-contract text-4xl text-gray-400"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kolom Kanan: DATA INPUT SUPPLIER -->
+                    <div class="space-y-6">
+                        <h4 class="font-bold text-sm text-gray-800 border-b border-gray-100 pb-2">Data Yang Diinput Supplier</h4>
+                        
+                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                            <label class="block text-[10px] font-bold text-blue-500 uppercase tracking-widest mb-1">Nomor Induk Kependudukan (NIK)</label>
+                            <p id="reviewNik" class="text-lg font-mono font-bold text-gray-900 tracking-wider">3306123456789012</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Nama Sesuai KTP</label>
+                                <p id="reviewNama" class="text-sm font-bold text-gray-900">Ahmad Subagyo</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Tanggal Lahir</label>
+                                <p class="text-sm font-bold text-gray-900">12 Agustus 1985</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Alamat Sesuai KTP</label>
+                            <p class="text-sm font-bold text-gray-900 leading-relaxed">Jl. Merdeka No.45, RT 01/RW 02, Kec. Purworejo, Kab. Purworejo, Jawa Tengah.</p>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Nama Bisnis / Toko</label>
+                            <p id="reviewBisnis" class="text-sm font-bold text-gray-900">CV Pangan Maju Jaya</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Modal (Tindakan) -->
+            <div class="p-6 border-t border-gray-100 bg-gray-50 flex flex-col sm:flex-row justify-between items-center gap-4 shrink-0">
+                <p class="text-xs text-gray-500 italic hidden sm:block"><i class="fas fa-info-circle mr-1"></i> Keputusan Anda menentukan keamanan platform.</p>
+                <div class="flex w-full sm:w-auto gap-3">
+                    <button onclick="aksiVerifikasi('tolak')" class="flex-1 sm:flex-none px-6 py-3 bg-white border border-red-500 text-red-600 font-bold rounded-xl hover:bg-red-50 transition text-sm">
+                        <i class="fas fa-times mr-1"></i> Tolak / Revisi
+                    </button>
+                    <button onclick="aksiVerifikasi('setuju')" class="flex-1 sm:flex-none px-6 py-3 bg-scrow-green text-white font-bold rounded-xl hover:bg-green-800 transition shadow-lg text-sm">
+                        <i class="fas fa-check mr-1"></i> Setujui & Verifikasi
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SCRIPT JAVASCRIPT                                                         -->
+    <!-- ========================================================================= -->
+    <script>
+        // 1. Sidebar Mobile Toggle
+        function toggleSidebar() {
+            document.getElementById('adminSidebar').classList.toggle('-translate-x-full');
+            document.getElementById('adminOverlay').classList.toggle('hidden');
+        }
+
+        // 2. Fungsi Buka Modal & Isi Data Dinamis
+        function bukaModalReview(nama, nik, bisnis) {
+            // Mengisi data ke dalam modal sesuai dengan baris yang diklik
+            document.getElementById('reviewNama').innerText = nama;
+            document.getElementById('reviewNik').innerText = nik;
+            document.getElementById('reviewBisnis').innerText = bisnis;
+
+            // Memunculkan Modal
+            const modal = document.getElementById('modalReview');
+            const content = document.getElementById('modalReviewContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+        }
+
+        // 3. Fungsi Tutup Modal
+        function tutupModal(idModal) {
+            const modal = document.getElementById(idModal);
+            const content = document.getElementById(idModal + 'Content');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // 4. Simulasi Tindakan Verifikasi
+        function aksiVerifikasi(status) {
+            if (status === 'setuju') {
+                alert("Berhasil! Akun supplier telah disetujui dan diverifikasi.");
+            } else {
+                const alasan = prompt("Masukkan alasan penolakan (misal: Foto KTP buram, NIK tidak sesuai):");
+                if(alasan) {
+                    alert("Akun ditolak. Pesan revisi akan dikirimkan ke email supplier.");
+                } else {
+                    return; // Batal tolak jika tidak mengisi alasan
+                }
+            }
+            tutupModal('modalReview');
+            // Dalam versi asli, baris tabel akan dihapus/dipindah ke tab Riwayat.
+        }
+    </script>
+</body>
+</html>

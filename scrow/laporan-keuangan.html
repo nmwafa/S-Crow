@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Keuangan - S+CROW Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Menggunakan Chart.js CDN untuk Visualisasi Data Finansial -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+        .bg-scrow-green { background-color: #15803d; }
+        .text-scrow-green { color: #15803d; }
+        .bg-scrow-yellow { background-color: #facc15; }
+        .text-scrow-yellow { color: #facc15; }
+        .sidebar-item:hover { background-color: rgba(255, 255, 255, 0.05); border-left-color: #facc15; }
+        .sidebar-item.active { background-color: rgba(255, 255, 255, 0.1); border-left-color: #facc15; color: #facc15; font-weight: bold; }
+        
+        /* Kustomisasi scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-gray-100 flex min-h-screen relative overflow-hidden">
+
+    <!-- Latar Gelap (Overlay) untuk Mobile -->
+    <div id="adminOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"></div>
+
+    <!-- Admin Sidebar (Off-canvas di Mobile) -->
+    <aside id="adminSidebar" class="w-64 bg-slate-900 text-gray-300 flex flex-col fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 z-50 shrink-0 shadow-2xl md:shadow-none">
+        <!-- Logo Area -->
+        <div class="p-6 bg-slate-950 flex items-center justify-between border-b border-white/5">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-scrow-yellow rounded-xl flex items-center justify-center text-slate-900">
+                    <i class="fas fa-shield-alt text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tighter text-white">S+CROW</span>
+                    <p class="text-[10px] text-scrow-yellow uppercase tracking-widest font-bold">Admin Portal</p>
+                </div>
+            </div>
+            <button onclick="toggleSidebar()" class="md:hidden text-gray-400 hover:text-white"><i class="fas fa-times text-xl"></i></button>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-grow py-6 space-y-1 overflow-y-auto custom-scrollbar">
+            <a href="dashboard-admin.html" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-chart-pie w-6"></i><span>Ringkasan</span>
+            </a>
+            <a href="pantau-transaksi.html" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-exchange-alt w-6"></i><span>Pantau Transaksi</span>
+            </a>
+            <a href="manajemen-escrow.html" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-wallet w-6"></i><span>Manajemen Escrow</span>
+            </a>
+            <a href="verifikasi-pengguna.html" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-users-cog w-6"></i><span>Verifikasi Pengguna</span>
+                <span class="ml-auto bg-orange-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">3</span>
+            </a>
+            <!-- Menu Laporan Keuangan Aktif -->
+            <a href="laporan-keuangan.html" class="sidebar-item active flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-file-invoice-dollar w-6"></i><span>Laporan Keuangan</span>
+            </a>
+            <a href="#" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-cog w-6"></i><span>Pengaturan Sistem</span>
+            </a>
+        </nav>
+
+        <div class="p-6 border-t border-white/10 bg-slate-950">
+            <a href="index.html" class="flex items-center text-gray-400 hover:text-white transition">
+                <i class="fas fa-sign-out-alt w-6"></i> <span>Keluar Panel</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col h-screen overflow-y-auto w-full custom-scrollbar">
+        
+        <!-- Top Header -->
+        <header class="bg-white h-20 shadow-sm flex items-center justify-between px-4 md:px-8 sticky top-0 z-30 shrink-0">
+            <div class="flex items-center">
+                <button onclick="toggleSidebar()" class="md:hidden mr-4 text-slate-600 focus:outline-none"><i class="fas fa-bars text-xl"></i></button>
+                <h2 class="text-lg md:text-xl font-extrabold text-slate-800">Pusat Kendali</h2>
+            </div>
+            
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <button class="relative text-gray-400 hover:text-scrow-green transition group">
+                    <i class="fas fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                    </span>
+                </button>
+                <div class="h-8 w-[1px] bg-gray-200"></div>
+                <div class="flex items-center space-x-3 cursor-pointer">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-sm font-bold text-slate-800">Finance Officer</p>
+                        <p class="text-[10px] text-scrow-green font-bold uppercase">S+CROW HQ</p>
+                    </div>
+                    <div class="w-10 h-10 bg-slate-900 rounded-full flex items-center justify-center text-scrow-yellow border-2 border-scrow-yellow shrink-0">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="p-4 md:p-8 space-y-6">
+            
+            <!-- Page Heading & Actions -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4">
+                <div>
+                    <h1 class="text-2xl font-extrabold text-slate-800">Laporan Keuangan Platform</h1>
+                    <p class="text-sm text-gray-500">Pemantauan arus kas, pendapatan komisi, dan total aset escrow.</p>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <select class="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-xl text-sm font-bold outline-none focus:border-scrow-green shadow-sm">
+                        <option>Tahun 2023 (YTD)</option>
+                        <option>Kuartal 3 (Q3)</option>
+                        <option>Bulan Ini (Okt)</option>
+                    </select>
+                    <button class="bg-scrow-green text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-green-800 transition flex items-center justify-center shadow-md">
+                        <i class="fas fa-download mr-2"></i> Ekspor Laporan
+                    </button>
+                </div>
+            </div>
+
+            <!-- FINANCIAL METRICS CARDS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
+                
+                <!-- Metrik 1: Pendapatan Platform (Keuntungan Murni) -->
+                <div class="bg-gradient-to-br from-green-900 to-green-800 p-6 rounded-3xl shadow-lg relative overflow-hidden group">
+                    <div class="relative z-10 text-white">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-green-200 text-xs font-bold uppercase tracking-widest">Total Pendapatan (Fee)</p>
+                            <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"><i class="fas fa-hand-holding-usd text-scrow-yellow"></i></div>
+                        </div>
+                        <h3 class="text-2xl lg:text-3xl font-extrabold text-white mb-1">Rp 152.4 Jt</h3>
+                        <p class="text-xs font-bold text-scrow-yellow flex items-center"><i class="fas fa-arrow-up mr-1"></i> +8.5% margin</p>
+                    </div>
+                    <i class="fas fa-chart-line absolute -bottom-4 -right-4 text-white/5 text-7xl transition-transform group-hover:scale-110"></i>
+                </div>
+
+                <!-- Metrik 2: Dana Escrow Aktif -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group hover:border-scrow-yellow transition duration-300">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-gray-400 text-xs font-bold uppercase tracking-widest">Dana Escrow Mengendap</p>
+                            <div class="w-8 h-8 bg-yellow-50 text-scrow-yellow rounded-full flex items-center justify-center"><i class="fas fa-lock"></i></div>
+                        </div>
+                        <h3 class="text-2xl lg:text-3xl font-extrabold text-slate-800 mb-1">Rp 1.45 M</h3>
+                        <p class="text-xs font-bold text-orange-500 flex items-center">Liabilitas ke 120 Transaksi</p>
+                    </div>
+                </div>
+
+                <!-- Metrik 3: Total Transaksi Sukses -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group hover:border-scrow-green transition duration-300">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-gray-400 text-xs font-bold uppercase tracking-widest">Total Nilai Dicairkan</p>
+                            <div class="w-8 h-8 bg-green-50 text-scrow-green rounded-full flex items-center justify-center"><i class="fas fa-check-double"></i></div>
+                        </div>
+                        <h3 class="text-2xl lg:text-3xl font-extrabold text-slate-800 mb-1">Rp 4.25 M</h3>
+                        <p class="text-xs font-bold text-scrow-green flex items-center"><i class="fas fa-paper-plane mr-1"></i> Sukses diteruskan ke Supplier</p>
+                    </div>
+                </div>
+
+                <!-- Metrik 4: Refund / Sengketa -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group hover:border-red-500 transition duration-300">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-gray-400 text-xs font-bold uppercase tracking-widest">Total Refund (Batal)</p>
+                            <div class="w-8 h-8 bg-red-50 text-red-500 rounded-full flex items-center justify-center"><i class="fas fa-undo"></i></div>
+                        </div>
+                        <h3 class="text-2xl lg:text-3xl font-extrabold text-slate-800 mb-1">Rp 45.2 Jt</h3>
+                        <p class="text-xs font-bold text-gray-500 flex items-center">Dikembalikan ke Buyer</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHARTS SECTION -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Chart 1: Tren Pendapatan Platform (Bar Chart) -->
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 lg:col-span-2 flex flex-col">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800">Tren Pendapatan Platform (Komisi Escrow)</h3>
+                            <p class="text-xs text-gray-500">Pendapatan bersih yang diterima dari pemotongan fee transaksi sukses.</p>
+                        </div>
+                    </div>
+                    <!-- Wadah Canvas Chart.js -->
+                    <div class="relative w-full flex-grow min-h-[300px]">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Alokasi Arus Kas (Doughnut Chart) -->
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-bold text-gray-800">Alokasi Arus Kas Escrow</h3>
+                        <p class="text-xs text-gray-500">Status uang masuk berdasarkan siklus transaksi YTD.</p>
+                    </div>
+                    <!-- Wadah Canvas Chart.js -->
+                    <div class="relative w-full flex-grow min-h-[250px] flex items-center justify-center">
+                        <canvas id="escrowFlowChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- FINANCIAL RECORD TABLE -->
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex flex-col">
+                
+                <div class="p-4 md:p-6 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <h3 class="text-lg font-bold text-gray-800">Riwayat Pemotongan Komisi Platform</h3>
+                    
+                    <div class="relative w-full md:w-64">
+                        <input type="text" placeholder="Cari ID Transaksi..." class="w-full text-sm border border-gray-200 rounded-lg pl-8 pr-3 py-2 outline-none focus:border-scrow-green">
+                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                    </div>
+                </div>
+                
+                <!-- Table (Responsive Scroll) -->
+                <div class="overflow-x-auto w-full custom-scrollbar">
+                    <table class="w-full text-left whitespace-nowrap min-w-[900px]">
+                        <thead class="bg-gray-50 text-gray-500 text-[10px] uppercase font-bold tracking-wider">
+                            <tr>
+                                <th class="px-6 py-4">ID Transaksi & Selesai</th>
+                                <th class="px-6 py-4">Supplier (Penerima Dana)</th>
+                                <th class="px-6 py-4">Nilai Transaksi Kotor</th>
+                                <th class="px-6 py-4 bg-green-50 text-scrow-green">Fee Platform (+Masuk)</th>
+                                <th class="px-6 py-4 text-center">Status Jurnal</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50 text-sm">
+                            
+                            <!-- Record 1 -->
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-4">
+                                    <p class="font-bold text-slate-800">#TRX-SC-8850</p>
+                                    <p class="text-[10px] text-gray-400">14 Okt 2023, 08:00 WIB</p>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <p class="font-bold text-slate-800">PT Sumber Pangan</p>
+                                </td>
+                                <td class="px-6 py-4 font-bold text-gray-500">Rp 7.500.000</td>
+                                <td class="px-6 py-4 bg-green-50/30">
+                                    <p class="font-extrabold text-scrow-green">+ Rp 75.000 <span class="text-[10px] text-gray-400 font-normal">(1%)</span></p>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 rounded-full text-[10px] font-bold uppercase border border-green-200">
+                                        Tercatat
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <!-- Record 2 -->
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-4">
+                                    <p class="font-bold text-slate-800">#TRX-SC-8842</p>
+                                    <p class="text-[10px] text-gray-400">13 Okt 2023, 14:20 WIB</p>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <p class="font-bold text-slate-800">Agro Lembang Lestari</p>
+                                </td>
+                                <td class="px-6 py-4 font-bold text-gray-500">Rp 12.000.000</td>
+                                <td class="px-6 py-4 bg-green-50/30">
+                                    <p class="font-extrabold text-scrow-green">+ Rp 120.000 <span class="text-[10px] text-gray-400 font-normal">(1%)</span></p>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 rounded-full text-[10px] font-bold uppercase border border-green-200">
+                                        Tercatat
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <!-- Record 3 -->
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-4">
+                                    <p class="font-bold text-slate-800">#TRX-SC-8830</p>
+                                    <p class="text-[10px] text-gray-400">11 Okt 2023, 10:15 WIB</p>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <p class="font-bold text-slate-800">Livestock Jaya Indo</p>
+                                </td>
+                                <td class="px-6 py-4 font-bold text-gray-500">Rp 4.500.000</td>
+                                <td class="px-6 py-4 bg-green-50/30">
+                                    <p class="font-extrabold text-scrow-green">+ Rp 45.000 <span class="text-[10px] text-gray-400 font-normal">(1%)</span></p>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 rounded-full text-[10px] font-bold uppercase border border-green-200">
+                                        Tercatat
+                                    </span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="p-4 border-t border-gray-50 flex items-center justify-between bg-white shrink-0">
+                    <p class="text-xs text-gray-500">Menampilkan 3 jurnal komisi terbaru</p>
+                    <div class="flex space-x-1">
+                        <button class="px-3 py-1 border border-gray-200 rounded text-xs text-gray-400 hover:text-gray-800 transition"><i class="fas fa-chevron-left"></i></button>
+                        <button class="px-3 py-1 border border-scrow-green bg-green-50 rounded text-xs text-scrow-green font-bold">1</button>
+                        <button class="px-3 py-1 border border-gray-200 rounded text-xs text-gray-600 hover:border-scrow-green transition">2</button>
+                        <button class="px-3 py-1 border border-gray-200 rounded text-xs text-gray-400 hover:text-gray-800 transition"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ========================================================================= -->
+    <!-- SCRIPT: INISIALISASI CHART.JS DAN SIDEBAR                                 -->
+    <!-- ========================================================================= -->
+    <script>
+        // 1. Fungsi Sidebar Mobile
+        function toggleSidebar() {
+            document.getElementById('adminSidebar').classList.toggle('-translate-x-full');
+            document.getElementById('adminOverlay').classList.toggle('hidden');
+        }
+
+        // 2. Inisialisasi Grafik Chart.js setelah halaman dimuat
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // Konfigurasi Global Font
+            Chart.defaults.font.family = 'Plus Jakarta Sans';
+            Chart.defaults.color = '#64748b'; // Tailwind slate-500
+
+            // --- A. GRAFIK PENDAPATAN PLATFORM (Bar Chart) ---
+            const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctxRevenue, {
+                type: 'bar',
+                data: {
+                    labels: ['Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt'],
+                    datasets: [
+                        {
+                            label: 'Pendapatan Komisi (Juta Rp)',
+                            data: [15, 22, 28, 35, 42, 55],
+                            backgroundColor: '#15803d', // scrow-green
+                            borderRadius: 6,
+                            barPercentage: 0.5,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { 
+                            backgroundColor: '#1e293b', 
+                            padding: 12, 
+                            titleFont: { size: 13 }, 
+                            bodyFont: { size: 14, weight: 'bold' },
+                            callbacks: {
+                                label: function(context) { return 'Rp ' + context.parsed.y + ' Juta'; }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { 
+                            border: { display: false }, 
+                            grid: { color: '#f1f5f9' }, 
+                            beginAtZero: true,
+                            ticks: { callback: function(value) { return value + ' Jt'; } }
+                        }
+                    }
+                }
+            });
+
+            // --- B. GRAFIK ALOKASI ARUS KAS (Doughnut Chart) ---
+            const ctxFlow = document.getElementById('escrowFlowChart').getContext('2d');
+            new Chart(ctxFlow, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Selesai Dicairkan', 'Tertahan di Escrow', 'Refund/Batal'],
+                    datasets: [{
+                        data: [74, 25, 1], // Persentase Dummy
+                        backgroundColor: [
+                            '#15803d', // Hijau (Selesai)
+                            '#facc15', // Kuning (Escrow)
+                            '#ef4444'  // Merah (Refund)
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { padding: 20, usePointStyle: true, font: { size: 11 } }
+                        },
+                        tooltip: {
+                            backgroundColor: '#ffffff',
+                            titleColor: '#000',
+                            bodyColor: '#15803d',
+                            borderColor: '#e2e8f0',
+                            borderWidth: 1,
+                            padding: 10,
+                            bodyFont: { weight: 'bold' },
+                            callbacks: {
+                                label: function(context) { return ' ' + context.parsed + '%'; }
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
