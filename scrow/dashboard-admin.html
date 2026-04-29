@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar - S+CROW</title>
+    <title>Ringkasan Analitik - S+CROW Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- CDN Chart.js untuk Visualisasi Data Statis -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
         body { font-family: 'Plus+Jakarta+Sans', sans-serif; }
@@ -13,284 +15,384 @@
         .text-scrow-green { color: #15803d; }
         .bg-scrow-yellow { background-color: #facc15; }
         .text-scrow-yellow { color: #facc15; }
+        .sidebar-item:hover { background-color: rgba(255, 255, 255, 0.05); border-left-color: #facc15; }
+        .sidebar-item.active { background-color: rgba(255, 255, 255, 0.1); border-left-color: #facc15; color: #facc15; font-weight: bold; }
         
-        /* Animasi Transisi Halaman */
-        .sub-page { display: none; }
-        .sub-page.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Kustomisasi scrollbar untuk modal */
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        /* Kustomisasi scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-100 flex min-h-screen relative overflow-hidden">
 
-    <nav class="p-6">
-        <a href="index.html" class="flex items-center space-x-2 max-w-7xl mx-auto">
-            <div class="w-8 h-8 bg-scrow-green rounded flex items-center justify-center">
-                <span class="text-scrow-yellow font-bold text-sm">S+</span>
+    <!-- Latar Gelap (Overlay) untuk Mobile -->
+    <div id="adminOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"></div>
+
+    <!-- Admin Sidebar (Off-canvas di Mobile) -->
+    <aside id="adminSidebar" class="w-64 bg-slate-900 text-gray-300 flex flex-col fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 z-50 shrink-0 shadow-2xl md:shadow-none">
+        <!-- Logo Area -->
+        <div class="p-6 bg-slate-950 flex items-center justify-between border-b border-white/5">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-scrow-yellow rounded-xl flex items-center justify-center text-slate-900">
+                    <i class="fas fa-shield-alt text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tighter text-white">S+CROW</span>
+                    <p class="text-[10px] text-scrow-yellow uppercase tracking-widest font-bold">Admin Portal</p>
+                </div>
             </div>
-            <span class="text-xl font-extrabold tracking-tighter text-scrow-green">CROW</span>
-        </a>
-    </nav>
+            <button onclick="toggleSidebar()" class="md:hidden text-gray-400 hover:text-white"><i class="fas fa-times text-xl"></i></button>
+        </div>
 
-    <main class="flex-grow flex items-center justify-center px-4 py-8 lg:py-12">
+        <!-- Navigation -->
+        <nav class="flex-grow py-6 space-y-1 overflow-y-auto custom-scrollbar">
+            <a href="dashboard-admin.html" class="sidebar-item active flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-chart-pie w-6"></i><span>Ringkasan</span>
+            </a>
+            <!-- Link menuju Halaman Tabel Pantau Transaksi -->
+            <a href="pantau-transaksi.html" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-exchange-alt w-6"></i><span>Pantau Transaksi</span>
+                <span class="ml-auto bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">12</span>
+            </a>
+            <a href="manajemen-escrow.html" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-wallet w-6"></i><span>Manajemen Escrow</span>
+            </a>
+            <a href="verifikasi-pengguna.html" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-users-cog w-6"></i><span>Verifikasi Pengguna</span>
+            </a>
+            <a href="laporan-keuangan.html" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-file-invoice w-6"></i><span>Laporan Keuangan</span>
+            </a>
+            <a href="#" class="sidebar-item flex items-center px-6 py-3 border-l-4 border-transparent transition">
+                <i class="fas fa-cog w-6"></i><span>Pengaturan Sistem</span>
+            </a>
+        </nav>
+
+        <div class="p-6 border-t border-white/10 bg-slate-950">
+            <a href="index.html" class="flex items-center text-gray-400 hover:text-white transition">
+                <i class="fas fa-sign-out-alt w-6"></i> <span>Keluar Panel</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col h-screen overflow-y-auto w-full custom-scrollbar">
         
-        <!-- Selection Step -->
-        <div id="selection" class="sub-page active w-full max-w-4xl text-center">
-            <h1 class="text-3xl font-extrabold mb-2 text-gray-900">Mari Bergabung</h1>
-            <p class="text-gray-500 mb-12">Pilih peran Anda untuk memulai perjalanan bisnis bersama S+CROW</p>
-            <div class="grid md:grid-cols-2 gap-8">
-                <button onclick="showRegister('supplier')" class="bg-scrow-green p-8 md:p-10 rounded-3xl shadow-lg border-2 border-transparent hover:scale-[1.02] transition text-left text-white group">
-                    <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-scrow-yellow text-3xl mb-6 group-hover:bg-scrow-yellow group-hover:text-green-900 transition duration-300">
-                        <i class="fas fa-truck-moving"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Daftar Supplier</h3>
-                    <p class="text-green-100 text-sm md:text-base leading-relaxed">Pasarkan produk bahan baku Anda ke ribuan buyer UMKM dengan jaminan sistem pembayaran Escrow yang aman.</p>
-                </button>
-                
-                <button onclick="showRegister('buyer')" class="bg-white p-8 md:p-10 rounded-3xl shadow-sm border-2 border-gray-100 hover:border-scrow-yellow hover:scale-[1.02] transition text-left group">
-                    <div class="w-16 h-16 bg-yellow-50 rounded-2xl flex items-center justify-center text-scrow-yellow text-3xl mb-6 group-hover:bg-scrow-yellow group-hover:text-green-900 transition duration-300">
-                        <i class="fas fa-store"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2 text-green-900">Daftar Buyer</h3>
-                    <p class="text-gray-500 text-sm md:text-base leading-relaxed">Dapatkan akses langsung ke supplier tangan pertama dengan harga yang lebih kompetitif untuk bisnis Anda.</p>
-                </button>
+        <!-- Top Header -->
+        <header class="bg-white h-20 shadow-sm flex items-center justify-between px-4 md:px-8 sticky top-0 z-30 shrink-0">
+            <div class="flex items-center">
+                <button onclick="toggleSidebar()" class="md:hidden mr-4 text-slate-600 focus:outline-none"><i class="fas fa-bars text-xl"></i></button>
+                <h2 class="text-lg md:text-xl font-extrabold text-slate-800">Ringkasan Analitik</h2>
             </div>
-            <div class="mt-12">
-                <p class="text-gray-500">Sudah punya akun? <a href="login.html" class="text-scrow-green font-bold hover:underline">Masuk di sini</a></p>
-            </div>
-        </div>
-
-        <!-- Supplier Register Form -->
-        <div id="supplier-form" class="sub-page w-full max-w-2xl">
-            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-gray-100 relative">
-                <button onclick="showSelection()" class="text-gray-400 hover:text-gray-600 mb-6 flex items-center text-sm font-bold transition">
-                    <i class="fas fa-arrow-left mr-2"></i> Kembali
+            
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <button class="relative text-gray-400 hover:text-scrow-green transition group">
+                    <i class="fas fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                    </span>
                 </button>
-                <div class="flex items-center space-x-3 mb-8">
-                    <div class="w-12 h-12 bg-green-50 text-scrow-green rounded-xl flex items-center justify-center text-xl shrink-0"><i class="fas fa-truck-moving"></i></div>
-                    <h2 class="text-xl md:text-2xl font-extrabold text-gray-900">Pendaftaran Akun Supplier</h2>
+                <div class="h-8 w-[1px] bg-gray-200"></div>
+                <div class="flex items-center space-x-3 cursor-pointer">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-sm font-bold text-slate-800">Data Analyst</p>
+                        <p class="text-[10px] text-scrow-green font-bold uppercase">S+CROW HQ</p>
+                    </div>
+                    <div class="w-10 h-10 bg-slate-900 rounded-full flex items-center justify-center text-scrow-yellow border-2 border-scrow-yellow shrink-0">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
                 </div>
-                
-                <!-- Form Supplier -->
-                <form onsubmit="event.preventDefault(); window.location.href='dashboard-supplier.html'" class="space-y-6">
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Nama Lengkap Pemilik</label>
-                            <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green focus:ring-4 focus:ring-green-50 transition" placeholder="Sesuai KTP" required>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Nama Usaha / Toko</label>
-                            <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green focus:ring-4 focus:ring-green-50 transition" placeholder="Contoh: Grosir Makmur" required>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Email Bisnis</label>
-                        <input type="email" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green focus:ring-4 focus:ring-green-50 transition" placeholder="sales@usahaanda.com" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Password</label>
-                        <input type="password" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-green focus:ring-4 focus:ring-green-50 transition" placeholder="Minimal 8 karakter" required>
-                    </div>
-
-                    <!-- Checkbox Syarat & Ketentuan -->
-                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 mt-4">
-                        <label class="flex items-start space-x-3 cursor-pointer">
-                            <input type="checkbox" id="tnc-checkbox" onchange="toggleSubmitSupplier()" class="mt-1 w-5 h-5 rounded border-gray-300 text-scrow-green focus:ring-scrow-green disabled:opacity-50" disabled>
-                            <span class="text-sm text-gray-600 leading-relaxed">Saya telah membaca, memahami, dan menyetujui seluruh <button type="button" onclick="bukaModalTNC()" class="text-scrow-green font-bold hover:underline">Syarat dan Ketentuan</button> yang berlaku di platform S+CROW.</span>
-                        </label>
-                    </div>
-
-                    <!-- Tombol Register (Disabled secara default) -->
-                    <button type="submit" id="btn-submit-supplier" class="w-full py-4 bg-gray-300 text-gray-500 font-extrabold rounded-xl transition duration-300 cursor-not-allowed shadow-none" disabled>
-                        Daftar Sebagai Supplier
-                    </button>
-                </form>
             </div>
-        </div>
+        </header>
 
-        <!-- Buyer Register Form (Tidak diubah rulesnya, hanya visual) -->
-        <div id="buyer-form" class="sub-page w-full max-w-2xl">
-            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-gray-100">
-                <button onclick="showSelection()" class="text-gray-400 hover:text-gray-600 mb-6 flex items-center text-sm font-bold transition">
-                    <i class="fas fa-arrow-left mr-2"></i> Kembali
-                </button>
-                <div class="flex items-center space-x-3 mb-8">
-                    <div class="w-12 h-12 bg-yellow-50 text-scrow-yellow rounded-xl flex items-center justify-center text-xl shrink-0"><i class="fas fa-store"></i></div>
-                    <h2 class="text-xl md:text-2xl font-extrabold text-gray-900">Pendaftaran Akun Buyer</h2>
+        <!-- Dashboard Content -->
+        <div class="p-4 md:p-8 space-y-6">
+            
+            <!-- Page Heading & Filter -->
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4">
+                <div>
+                    <h1 class="text-2xl font-extrabold text-slate-800">Insight Platform</h1>
+                    <p class="text-sm text-gray-500">Metrik utama pertumbuhan pengguna, supplier, dan arus transaksi.</p>
                 </div>
+                <div class="flex gap-2">
+                    <select class="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-xl text-sm font-bold outline-none focus:border-scrow-green shadow-sm cursor-pointer">
+                        <option>Bulan Ini (Berjalan)</option>
+                        <option>Bulan Lalu</option>
+                        <option>Kuartal Ini (Q3)</option>
+                        <option>Sepanjang Tahun (YTD)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- KEY METRICS CARDS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
+                <!-- Metrik 1: Total Volume Transaksi -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group hover:border-scrow-green transition duration-300">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-gray-400 text-xs font-bold uppercase tracking-widest">Total Transaksi Selesai</p>
+                            <div class="w-8 h-8 bg-green-50 text-scrow-green rounded-full flex items-center justify-center"><i class="fas fa-coins"></i></div>
+                        </div>
+                        <h3 class="text-2xl lg:text-3xl font-extrabold text-slate-800 mb-1">Rp 4.25 M</h3>
+                        <p class="text-xs font-bold text-scrow-green flex items-center"><i class="fas fa-arrow-up mr-1"></i> +12.5% vs bulan lalu</p>
+                    </div>
+                </div>
+
+                <!-- Metrik 2: Traffic Pengguna -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group hover:border-purple-500 transition duration-300">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-gray-400 text-xs font-bold uppercase tracking-widest">Traffic Web (Bulan Ini)</p>
+                            <div class="w-8 h-8 bg-purple-50 text-purple-500 rounded-full flex items-center justify-center"><i class="fas fa-globe"></i></div>
+                        </div>
+                        <h3 class="text-2xl lg:text-3xl font-extrabold text-slate-800 mb-1">15,230</h3>
+                        <p class="text-xs font-bold text-scrow-green flex items-center"><i class="fas fa-arrow-up mr-1"></i> +8.4% unique visitors</p>
+                    </div>
+                </div>
+
+                <!-- Metrik 3: Pengguna Buyer Aktif -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group hover:border-blue-500 transition duration-300">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-gray-400 text-xs font-bold uppercase tracking-widest">Total Pengguna (Buyer)</p>
+                            <div class="w-8 h-8 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center"><i class="fas fa-store"></i></div>
+                        </div>
+                        <h3 class="text-2xl lg:text-3xl font-extrabold text-slate-800 mb-1">1,842</h3>
+                        <p class="text-xs font-bold text-scrow-green flex items-center"><i class="fas fa-arrow-up mr-1"></i> +120 akun baru</p>
+                    </div>
+                </div>
+
+                <!-- Metrik 4: Supplier Aktif -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group hover:border-orange-500 transition duration-300">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-gray-400 text-xs font-bold uppercase tracking-widest">Supplier Aktif</p>
+                            <div class="w-8 h-8 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center"><i class="fas fa-truck-moving"></i></div>
+                        </div>
+                        <h3 class="text-2xl lg:text-3xl font-extrabold text-slate-800 mb-1">345</h3>
+                        <p class="text-xs font-bold text-scrow-green flex items-center"><i class="fas fa-arrow-up mr-1"></i> +15 UMKM bergabung</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHARTS SECTION (Insight Traffic & Transaksi) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 
-                <form onsubmit="event.preventDefault(); window.location.href='dashboard-buyer.html'" class="space-y-6">
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Nama Lengkap</label>
-                        <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-yellow focus:ring-4 focus:ring-yellow-50 transition" placeholder="John Doe" required>
-                    </div>
-                    <div class="grid md:grid-cols-2 gap-6">
+                <!-- Chart 1: Pertumbuhan Pengguna (Buyer vs Supplier) -->
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col">
+                    <div class="flex justify-between items-center mb-6">
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Nomor WhatsApp</label>
-                            <input type="tel" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-yellow focus:ring-4 focus:ring-yellow-50 transition" placeholder="0812xxxx" required>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-2">Email</label>
-                            <input type="email" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-yellow focus:ring-4 focus:ring-yellow-50 transition" placeholder="johndoe@email.com" required>
+                            <h3 class="text-lg font-bold text-gray-800">Pertumbuhan Pengguna Baru</h3>
+                            <p class="text-xs text-gray-500">Perbandingan registrasi Buyer dan Supplier per Bulan</p>
                         </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Password</label>
-                        <input type="password" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-scrow-yellow focus:ring-4 focus:ring-yellow-50 transition" placeholder="Min. 8 karakter" required>
+                    <!-- Wadah Canvas Chart.js -->
+                    <div class="relative w-full flex-grow min-h-[300px]">
+                        <canvas id="trafficChart"></canvas>
                     </div>
-                    <button type="submit" class="w-full py-4 bg-scrow-yellow text-green-900 font-extrabold rounded-xl shadow-lg hover:bg-yellow-400 transition">Daftar Sebagai Buyer</button>
-                </form>
+                </div>
+
+                <!-- Chart 2: Pertumbuhan Volume Transaksi -->
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800">Tren Volume Transaksi (GMV)</h3>
+                            <p class="text-xs text-gray-500">Total nilai transaksi bersih yang berhasil di platform</p>
+                        </div>
+                    </div>
+                    <!-- Wadah Canvas Chart.js -->
+                    <div class="relative w-full flex-grow min-h-[300px]">
+                        <canvas id="transactionChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- BOTTOM SECTION -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Top Supplier List -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 lg:col-span-2">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-gray-800">Top Supplier (GMV Tertinggi)</h3>
+                        <a href="pantau-transaksi.html" class="text-xs font-bold text-scrow-green hover:underline">Lihat Semua Transaksi</a>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center font-bold">PT</div>
+                                <div>
+                                    <p class="font-bold text-sm text-gray-800">PT Sumber Pangan</p>
+                                    <p class="text-[10px] text-gray-500">120 Transaksi Selesai</p>
+                                </div>
+                            </div>
+                            <span class="font-extrabold text-scrow-green text-sm">Rp 450 Jt</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold">AL</div>
+                                <div>
+                                    <p class="font-bold text-sm text-gray-800">Agro Lembang Lestari</p>
+                                    <p class="text-[10px] text-gray-500">85 Transaksi Selesai</p>
+                                </div>
+                            </div>
+                            <span class="font-extrabold text-scrow-green text-sm">Rp 310 Jt</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Escrow Status -->
+                <div class="bg-gradient-to-br from-slate-900 to-slate-800 p-6 rounded-3xl shadow-lg text-white">
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 class="text-lg font-bold text-white">Status Dana Escrow</h3>
+                        <i class="fas fa-shield-alt text-scrow-yellow text-2xl"></i>
+                    </div>
+                    <div class="space-y-5">
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-gray-300">Siap Dicairkan (Aman)</span>
+                                <span class="font-bold text-scrow-green">78%</span>
+                            </div>
+                            <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                                <div class="bg-scrow-green h-full rounded-full" style="width: 78%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-gray-300">Dalam Pengiriman</span>
+                                <span class="font-bold text-scrow-yellow">18%</span>
+                            </div>
+                            <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                                <div class="bg-scrow-yellow h-full rounded-full" style="width: 18%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-gray-300">Sengketa / Komplain</span>
+                                <span class="font-bold text-red-400">4%</span>
+                            </div>
+                            <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                                <div class="bg-red-500 h-full rounded-full" style="width: 4%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-
     </main>
 
-
-    <!-- ========================================== -->
-    <!-- MODAL SYARAT DAN KETENTUAN                 -->
-    <!-- ========================================== -->
-    <div id="modalTNC" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 flex flex-col max-h-[85vh]" id="modalTNCContent">
-            
-            <!-- Header Modal -->
-            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50 shrink-0">
-                <h3 class="text-lg sm:text-xl font-bold text-gray-800 flex items-center">
-                    <i class="fas fa-file-contract text-scrow-green mr-3"></i> Syarat & Ketentuan S+CROW
-                </h3>
-                <button type="button" onclick="tutupModalTNC()" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-200 hover:text-red-500 transition focus:outline-none">
-                    <i class="fas fa-times text-lg"></i>
-                </button>
-            </div>
-            
-            <!-- Konten (Wajib Scroll) -->
-            <div id="tnc-scroll-area" onscroll="cekScrollTNC()" class="p-6 overflow-y-auto custom-scrollbar text-sm text-gray-600 space-y-4 leading-relaxed bg-white">
-                <p class="font-bold text-gray-800 text-base">Penting: Mohon baca dengan saksama sebelum mendaftar sebagai Supplier.</p>
-                <p>Selamat datang di S+CROW. Dengan mendaftar dan menggunakan platform kami, Anda menyetujui perjanjian berikut ini yang mengikat secara hukum antara Anda ("Supplier") dan S+CROW ("Platform").</p>
-                
-                <h4 class="font-bold text-gray-800 mt-4">1. Penggunaan Layanan Escrow</h4>
-                <p>Seluruh transaksi pembayaran yang terjadi melalui S+CROW wajib menggunakan sistem Rekening Bersama (Escrow) yang telah disediakan. Kami melarang keras adanya transaksi di luar platform yang mengatasnamakan S+CROW.</p>
-
-                <h4 class="font-bold text-gray-800 mt-4">2. Kewajiban Pengiriman & Kualitas Barang</h4>
-                <p>Sebagai Supplier, Anda wajib memastikan bahwa barang yang dikirimkan sesuai dengan deskripsi, gambar, dan kuantitas yang dipesan oleh Buyer. Segala bentuk penipuan atau pengurangan timbangan akan diproses secara hukum, dan akun Anda akan dibekukan secara permanen.</p>
-
-                <h4 class="font-bold text-gray-800 mt-4">3. Pencairan Dana (Withdrawal)</h4>
-                <p>Dana transaksi baru akan dikreditkan ke "Saldo Escrow" Anda HANYA SETELAH Buyer menekan tombol konfirmasi penerimaan barang. Kami berhak menahan dana jika terdapat komplain atau sengketa transaksi yang sedang dimediasi oleh tim Admin S+CROW.</p>
-
-                <h4 class="font-bold text-gray-800 mt-4">4. Biaya Platform & Komisi</h4>
-                <p>S+CROW berhak memotong biaya layanan dan administrasi secara otomatis dari total dana penjualan sebelum dikreditkan ke saldo Anda. Rincian persentase potongan telah dijelaskan pada halaman skema biaya platform.</p>
-
-                <!-- Paragraf tambahan untuk memicu scroll yang lebih panjang -->
-                <p class="text-transparent select-none mt-10">... Scroll spacer ... <br><br><br><br><br><br><br><br><br><br> Akhir dari halaman Syarat dan Ketentuan.</p>
-                
-                <p class="font-bold text-center text-gray-800 pt-8 border-t border-gray-100">Akhir dari Dokumen Perjanjian.</p>
-            </div>
-            
-            <!-- Footer Modal (Tombol Setuju) -->
-            <div class="p-6 border-t border-gray-100 bg-gray-50 shrink-0">
-                <p class="text-[10px] sm:text-xs text-gray-500 mb-3 text-center font-bold" id="tnc-hint">
-                    <i class="fas fa-arrow-down animate-bounce mr-1 text-scrow-yellow"></i> Scroll hingga akhir untuk menyetujui
-                </p>
-                <button type="button" id="btn-setuju-tnc" onclick="setujuTNC()" class="w-full py-4 bg-gray-300 text-gray-500 font-extrabold rounded-xl cursor-not-allowed transition duration-300" disabled>
-                    Saya Telah Membaca & Menyetujui
-                </button>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SCRIPT VANILLA JAVASCRIPT                  -->
-    <!-- ========================================== -->
+    <!-- ========================================================================= -->
+    <!-- SCRIPT: INISIALISASI CHART.JS DAN SIDEBAR                                 -->
+    <!-- ========================================================================= -->
     <script>
-        // --- 1. Fungsi Navigasi antar Peran ---
-        function showRegister(role) {
-            document.getElementById('selection').classList.remove('active');
-            if(role === 'supplier') {
-                document.getElementById('supplier-form').classList.add('active');
-            } else {
-                document.getElementById('buyer-form').classList.add('active');
-            }
-        }
-        function showSelection() {
-            document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
-            document.getElementById('selection').classList.add('active');
+        // 1. Fungsi Sidebar Mobile
+        function toggleSidebar() {
+            document.getElementById('adminSidebar').classList.toggle('-translate-x-full');
+            document.getElementById('adminOverlay').classList.toggle('hidden');
         }
 
-        // --- 2. Fungsi Modal Syarat & Ketentuan ---
-        function bukaModalTNC() {
-            const modal = document.getElementById('modalTNC');
-            const content = document.getElementById('modalTNCContent');
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                content.classList.remove('scale-95');
-            }, 10);
-
-            // Cek apabila layar tinggi dan konten tidak memiliki scrollbar
-            setTimeout(cekScrollTNC, 200);
-        }
-
-        function tutupModalTNC() {
-            const modal = document.getElementById('modalTNC');
-            const content = document.getElementById('modalTNCContent');
-            modal.classList.add('opacity-0');
-            content.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
-        }
-
-        // --- 3. Logika Scroll TNC ---
-        function cekScrollTNC() {
-            const area = document.getElementById('tnc-scroll-area');
-            const btn = document.getElementById('btn-setuju-tnc');
-            const hint = document.getElementById('tnc-hint');
+        // 2. Inisialisasi Grafik Chart.js setelah halaman dimuat
+        document.addEventListener("DOMContentLoaded", function() {
             
-            // Logika: Jika scroll position + tinggi layar container >= tinggi total konten (-5px toleransi pixel)
-            if (area.scrollTop + area.clientHeight >= area.scrollHeight - 5) {
-                // Aktifkan Tombol "Saya Setuju"
-                btn.disabled = false;
-                btn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
-                btn.classList.add('bg-scrow-green', 'text-white', 'hover:bg-green-800', 'shadow-lg');
-                
-                // Ubah teks hint
-                hint.innerHTML = '<i class="fas fa-check-circle text-scrow-green mr-1"></i> Terima kasih telah membaca.';
-            }
-        }
+            // Konfigurasi Font Bawaan Chart
+            Chart.defaults.font.family = 'Plus Jakarta Sans';
+            Chart.defaults.color = '#64748b'; // Tailwind slate-500
 
-        // --- 4. Fungsi Setuju & Centang Otomatis ---
-        function setujuTNC() {
-            tutupModalTNC(); // Tutup modal
-            
-            const checkbox = document.getElementById('tnc-checkbox');
-            checkbox.disabled = false; // Buka kunci checkbox
-            checkbox.checked = true;   // Centang otomatis
-            
-            // Panggil fungsi toggle untuk mengaktifkan tombol pendaftaran
-            toggleSubmitSupplier();
-        }
+            // --- A. GRAFIK PERTUMBUHAN PENGGUNA (Grouped Bar Chart) ---
+            const ctxTraffic = document.getElementById('trafficChart').getContext('2d');
+            new Chart(ctxTraffic, {
+                type: 'bar',
+                data: {
+                    labels: ['Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt'],
+                    datasets: [
+                        {
+                            label: 'Buyer Baru',
+                            data: [150, 220, 310, 280, 410, 520],
+                            backgroundColor: '#3b82f6', // Tailwind blue-500
+                            borderRadius: 6,
+                            barPercentage: 0.6,
+                            categoryPercentage: 0.8
+                        },
+                        {
+                            label: 'Supplier Baru',
+                            data: [30, 45, 60, 55, 80, 105],
+                            backgroundColor: '#facc15', // scrow-yellow
+                            borderRadius: 6,
+                            barPercentage: 0.6,
+                            categoryPercentage: 0.8
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } },
+                        tooltip: { backgroundColor: '#1e293b', padding: 12, titleFont: { size: 13 }, bodyFont: { size: 14, weight: 'bold' } }
+                    },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { border: { display: false }, grid: { color: '#f1f5f9' }, beginAtZero: true }
+                    }
+                }
+            });
 
-        // --- 5. Fungsi Validasi Tombol Daftar Supplier ---
-        function toggleSubmitSupplier() {
-            const cb = document.getElementById('tnc-checkbox');
-            const btn = document.getElementById('btn-submit-supplier');
+            // --- B. GRAFIK TREN TRANSAKSI (Smooth Line Chart) ---
+            const ctxTransaction = document.getElementById('transactionChart').getContext('2d');
             
-            if (cb.checked) {
-                // Aktifkan Tombol Register
-                btn.disabled = false;
-                btn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed', 'shadow-none');
-                btn.classList.add('bg-scrow-green', 'text-white', 'shadow-lg', 'hover:bg-green-800');
-            } else {
-                // Matikan Tombol Register
-                btn.disabled = true;
-                btn.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed', 'shadow-none');
-                btn.classList.remove('bg-scrow-green', 'text-white', 'shadow-lg', 'hover:bg-green-800');
-            }
-        }
+            // Efek Gradient di bawah garis
+            let gradientGmv = ctxTransaction.createLinearGradient(0, 0, 0, 300);
+            gradientGmv.addColorStop(0, 'rgba(21, 128, 61, 0.4)'); // scrow-green opacity
+            gradientGmv.addColorStop(1, 'rgba(21, 128, 61, 0.0)');
+
+            new Chart(ctxTransaction, {
+                type: 'line',
+                data: {
+                    labels: ['Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt'],
+                    datasets: [{
+                        label: 'Nilai Transaksi (Miliar Rp)',
+                        data: [1.2, 1.8, 2.1, 2.9, 3.8, 4.25],
+                        borderColor: '#15803d', // scrow-green
+                        backgroundColor: gradientGmv,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#15803d',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        fill: true,
+                        tension: 0.4 // Membuat garis melengkung dinamis
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            padding: 12,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) { return 'Rp ' + context.parsed.y + ' Miliar'; }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { 
+                            border: { display: false },
+                            grid: { color: '#f1f5f9' },
+                            ticks: { callback: function(value) { return value + 'M'; } }
+                        }
+                    }
+                }
+            });
+
+        });
     </script>
 </body>
 </html>
